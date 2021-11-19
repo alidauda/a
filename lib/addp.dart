@@ -38,7 +38,7 @@ class _CreateState extends State<Create> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
-        title: Center(child: Text("Add Product")),
+        title: Center(child: Text("Add product")),
       ),
       body: _isloading
           ? Center(
@@ -274,10 +274,11 @@ class _CreateState extends State<Create> {
                               "price": int.parse(pricecontroller.text),
                               "images": oflinks,
                               "userid": _userid.uid,
-                              "quantity": qcontroller.text,
+                              "quantity":int.parse(qcontroller.text) ,
                               "slug": slug,
                               "alt": descontroller.text,
-                              "shopname": shopname
+                              "shopname": shopname,
+                              "published":true
                             });
                             setState(() {
                               _isloading = false;

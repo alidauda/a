@@ -15,24 +15,23 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'theme/text_styles.dart';
 import 'viewitem.dart';
-
+User? userid = FirebaseAuth.instance.currentUser;
 
   @override
 class HomePageScreen extends StatefulWidget {
-  var userid;
+  
   static const routeName="/plistPage";
-  HomePageScreen(this.userid);
- 
+  
   @override
-  _HomePageState createState() => _HomePageState(userid);
+  _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePageScreen> {
  
  
-var _userid;
 
-_HomePageState(this._userid);
+
+
  @override
   void initState() {
     super.initState();
@@ -138,10 +137,7 @@ _HomePageState(this._userid);
             ),
           ),
           title: Text(data["name"].toString(), style: TextStyles.title.bold),
-          subtitle: Text(
-            data["price"].toString(),
-            style: TextStyles.bodySm.subTitleColor.bold,
-          ),
+          
           trailing: Icon(
             Icons.keyboard_arrow_right,
             size: 30,
@@ -197,7 +193,7 @@ _HomePageState(this._userid);
              
     
             StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance.collection("users").doc(_userid).collection("items").snapshots(),
+            stream: FirebaseFirestore.instance.collection("users").doc(userid!.uid).collection("items").snapshots(),
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError) {
                 return Text('Something went wrong');

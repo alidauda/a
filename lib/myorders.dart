@@ -1,76 +1,42 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'theme/extention.dart';
 import 'orderviewpage.dart';
 import 'theme/light_color.dart';
 import 'theme/text_styles.dart';
-
+User? userid = FirebaseAuth.instance.currentUser;
 class Myorders extends StatefulWidget {
-  var userid;
-  Myorders(this.userid);
+  
 
   @override
-  _MyordersState createState() => _MyordersState(userid);
+  _MyordersState createState() => _MyordersState();
 }
 
 class _MyordersState extends State<Myorders> {
-  var userid;
-  _MyordersState(this.userid);
+  
   add() async {
     await FirebaseFirestore.instance
-        .collection("userorders")
-        .doc(userid)
-        .collection("myorders")
+        .collection("users")
+        .doc(userid!.uid)
+        .collection("orders")
         .add({
+      "customerid": "asa",
+      "price": 4000,
+      "status": "pending",
       'post': [
         {
           "content": "kai ka siyo min abbin nan",
           "createdAt": "21, Dec,2021",
-          "status": "pending",
+          "status": "delivering",
           "username": "ali d"
         },
         {
           "content": "kai ka siyo min abbin nan",
           "createdAt": "21, Dec,2021",
-          "status": "pending",
-          "username": "ali d"
-        },
-        {
-          "content": "kai ka siyo min abbin nan",
-          "createdAt": "21, Dec,2021",
-          "status": "pending",
-          "username": "ali d"
-        },
-        {
-          "content": "kai ka siyo min abbin nan",
-          "createdAt": "21, Dec,2021",
-          "status": "pending",
-          "username": "ali d"
-        },
-        {
-          "content": "kai ka siyo min abbin nan",
-          "createdAt": "21, Dec,2021",
-          "status": "pending",
-          "username": "ali d"
-        },
-        {
-          "content": "kai ka siyo min abbin nan",
-          "createdAt": "21, Dec,2021",
-          "status": "pending",
-          "username": "ali d"
-        },
-        {
-          "content": "kai ka siyo min abbin nan",
-          "createdAt": "21, Dec,2021",
-          "status": "pending",
-          "username": "ali d"
-        },
-        {
-          "content": "kai ka siyo min abbin nan",
-          "createdAt": "21, Dec,2021",
-          "status": "pending",
+          "status": "delivered",
           "username": "ali d"
         },
         {
@@ -86,6 +52,17 @@ class _MyordersState extends State<Myorders> {
   @override
   void initState() {
     super.initState();
+    // add();
+    // add();
+    // add();
+    // add();
+    // add();
+    // add();
+    // add();
+    // add();
+    // add();
+    // add();
+    // add();
   }
 
   @override
@@ -97,9 +74,9 @@ class _MyordersState extends State<Myorders> {
       body: SafeArea(
         child: StreamBuilder(
             stream: FirebaseFirestore.instance
-                .collection("userorders")
-                .doc(userid)
-                .collection("myorders")
+              .collection("users")
+        .doc(userid!.uid)
+        .collection("orders")
                 .snapshots(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -111,10 +88,14 @@ class _MyordersState extends State<Myorders> {
 
               return ListView(children: [
                 ...snapshot.data!.docs.map((document) {
-                  var post;
+                  var post, price, status;
+
                   try {
                     setState(() {
                       post = document['post'];
+                      price = document['price'];
+                      status = document['status'];
+                      print(post);
                     });
                   } catch (e) {}
                   Color randomColor() {
@@ -142,7 +123,10 @@ class _MyordersState extends State<Myorders> {
                     post: post,
                     width: width,
                     id: document.id,
-                    userid: userid,
+                    userid: userid!.uid,
+                    status1: status,
+                    price: price,
+                    status2: status,
                   );
                   // return Container(
                   // height: double.maxFinite,
@@ -220,16 +204,19 @@ class _MyordersState extends State<Myorders> {
 }
 
 class Mycontainer extends StatefulWidget {
-  Mycontainer(
-      {Key? key,
-      required this.height,
-      required this.post,
-      required this.width,
-      required this.id,
-      required this.userid
-      // required this.selected,
-      })
-      : super(key: key);
+  Mycontainer({
+    Key? key,
+    required this.height,
+    required this.post,
+    required this.width,
+    required this.id,
+    required this.userid,
+    required this.price,
+    required this.status2,
+    required this.status1,
+
+    // required this.selected,
+  }) : super(key: key);
 
   final double height;
   final post;
@@ -237,8 +224,9 @@ class Mycontainer extends StatefulWidget {
   final id;
   final userid;
   // final String? selected;
-  var price = 2000;
-  var status2 = "pending";
+  var price;
+  var status2;
+  var status1;
 
   @override
   _MycontainerState createState() => _MycontainerState();
@@ -280,7 +268,7 @@ class _MycontainerState extends State<Mycontainer> {
                     //  Text(widget.post[0]['username'] +
                     //     "ordered" +
                     //     widget.post[0]['content']),
-                    subtitle: Text('at' + widget.post[0]['createdAt']),
+                    
                   ),
                   Container(
                     width: 0.9 * widget.width,
@@ -289,16 +277,14 @@ class _MycontainerState extends State<Mycontainer> {
                       title: Container(
                         width: 0.5 * widget.width,
                         child: DropdownButton<String>(
-                          value: selected == null
-                              ? widget.post[0]['status']
-                              : selected,
+                          value: selected == null ? widget.status1 : selected,
                           items: <String>[
                             // post[0]['status'],
                             'pending',
                             'delivering',
                             'delivered',
                             'recieved'
-                          ].map((String value) {
+                          ].map((value) {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(value),
@@ -343,9 +329,10 @@ class _MycontainerState extends State<Mycontainer> {
                                     .doc(widget.userid)
                                     .set({'revenue': total});
                               }
-
+                              if (mounted) {
+                                setState(() => widget.status2 = value!);
+                              }
                               //add to revenue
-                              setState(() => widget.status2 = value!);
                             } else if (widget.status2 == "recieved" &&
                                 selected != "recieved") {
                               var revenue = 0;
@@ -383,20 +370,22 @@ class _MycontainerState extends State<Mycontainer> {
                                     .doc(widget.userid)
                                     .set({'revenue': total});
                               }
-
+        if (mounted) {
+                              setState(() => widget.status2 = value!);
+                              }
                               //remove to revenue
-                              setState(() => widget.status2 = value!);
                             } else {
+     if (mounted) {
                               setState(() => widget.status2 = value!);
-                            }
+                              }                            }
 
                             // try {
-                               await FirebaseFirestore.instance
-        .collection("userorders")
-        .doc(widget.userid)
-        .collection("myorders").doc(widget.id).update({
-"post"[0]:{'status':selected}
-        });
+                            await FirebaseFirestore.instance
+                                .collection("userorders")
+                                .doc(widget.userid)
+                                .collection("myorders")
+                                .doc(widget.id)
+                                .update({"status": selected});
                             // } catch (e) {
 
                             // }

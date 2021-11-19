@@ -28,7 +28,7 @@ class _CreateDetailsState extends State<CreateDetails> {
           backgroundColor: Colors.green,
         ),
         body: _isloading
-            ? Center(child:CircularProgressIndicator()) 
+            ? CircularProgressIndicator()
             : Container(
                 margin: EdgeInsets.all(10),
                 padding: EdgeInsets.all(10),
@@ -74,8 +74,8 @@ class _CreateDetailsState extends State<CreateDetails> {
                           });
                           try {
                             await FirebaseFirestore.instance
-                                .collection("users").doc(auth!.uid)
-                                .set({"name": _name.text, "userId": auth!.uid});
+                                .collection("detailDoc")
+                                .add({"name": _name.text, "userId": auth!.uid});
                                 setState(() {
   _isloading=false;
 });

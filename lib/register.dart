@@ -5,6 +5,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 // import 'package:shop/chooseusername.dart';
 
+import 'chooseshpname.dart';
 import 'home_page_screen.dart';
 import 'homepage.dart';
 class Register extends StatefulWidget {
@@ -203,7 +204,7 @@ class _RegisterState extends State<Register> {
                 }
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MyStatefulWidget()),
+                  MaterialPageRoute(builder: (context) => Choose()),
                 );
               },
             ),

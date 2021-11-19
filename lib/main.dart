@@ -1,16 +1,19 @@
 // @dart=2.9
 
+import 'package:my_ap/sss.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'addp.dart';
+import 'create_det.dart';
+import 'home_page_screen.dart';
+import 'homepage.dart';
+import 'siginup.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:my_ap/addp.dart';
-import 'package:my_ap/siginup.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'addbank.dart';
 import 'chooseshpname.dart';
-import 'create_det.dart';
 import 'home.dart';
-import 'homepage.dart';
 import 'register.dart';
 
 
@@ -44,14 +47,12 @@ import 'register.dart';
 //         CreateDetails.routeName:(_)=>CreateDetails(),
 //         Create.routeName:(_)=>Create(),
 //         // HomePageScreen.routeName:(_)=>HomePageScreen(),
-//         MyStatefulWidget.routeName:(_)=>MyStatefulWidget(),
+//         // MyStatefulWidget.routeName:(_)=>MyStatefulWidget(),
       
 //       },
 //     );
 //   }
 // }
-
-
 Future<void> main() async{
   var user=false;
   WidgetsFlutterBinding.ensureInitialized();
@@ -65,11 +66,12 @@ Future<void> main() async{
     routes:{
               CreateDetails.routeName:(_)=>CreateDetails(),
          Create.routeName:(_)=>Create(),
-//         // HomePageScreen.routeName:(_)=>HomePageScreen(),
+   // HomePageScreen.routeName:(_)=>HomePageScreen(),
          MyStatefulWidget.routeName:(_)=>MyStatefulWidget(),
     },
    
-    home: LoginScreen(),
+    home:  email==null?LoginScreen():MyStatefulWidget()
 
   ));
 }
+

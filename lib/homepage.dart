@@ -1,15 +1,14 @@
 // @dart=2.9
 
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'siginup.dart';
 import 'package:flutter/material.dart';
 
 import 'home.dart';
 import 'home_page_screen.dart';
 import 'myorders.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-var currentUser = FirebaseAuth.instance.currentUser.uid;
-
-
+User userid = FirebaseAuth.instance.currentUser;
 class MyStatefulWidget extends StatefulWidget {
  
   static const routeName="/navPage";
@@ -22,10 +21,7 @@ class MyStatefulWidget extends StatefulWidget {
 
 /// This is the private State class that goes with MyStatefulWidget.
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-      
-
-
-
+  
 
 //   var userid;
 // _MyStatefulWidgetState(this.userid);
@@ -37,9 +33,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 void initState() {
   super.initState();
   _widgetOptions = <Widget>[
-    Home(currentUser) ,
-    HomePageScreen(currentUser),
-    Myorders(currentUser),
+    Home() ,
+    HomePageScreen(),
+    Myorders(),
   
   ];
 }
@@ -72,7 +68,7 @@ void initState() {
              
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.production_quantity_limits),
+            icon: Icon(Icons.business),
             label: 'Products',
             backgroundColor: Colors.green,
           ),
@@ -84,7 +80,7 @@ void initState() {
      
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: Colors.white,
         onTap: _onItemTapped,
       ),
     );

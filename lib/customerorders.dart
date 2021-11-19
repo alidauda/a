@@ -24,22 +24,28 @@ class _CustomerordersState extends State<Customerorders> {
         .doc(userid)
         .collection("myorders")
         .add({
+      "customerid": "asa",
+      "price": 4000,
+      "status": "pending",
       'post': [
-   
+        {
+          "content": "kai ka siyo min abbin nan",
+          "createdAt": "21, Dec,2021",
+          "status": "delivering",
+          "username": "ali d"
+        },
+        {
+          "content": "kai ka siyo min abbin nan",
+          "createdAt": "21, Dec,2021",
+          "status": "delivered",
+          "username": "ali d"
+        },
         {
           "content": "kai ka siyo min abbin nan",
           "createdAt": "21, Dec,2021",
           "status": "pending",
           "username": "ali d"
         },
-  
-        {
-          "content": "kai ka siyo min abbin nan",
-          "createdAt": "21, Dec,2021",
-          "status": "pending",
-          "username": "ali d"
-        },
-  
       ]
     });
   }
@@ -47,6 +53,17 @@ class _CustomerordersState extends State<Customerorders> {
   @override
   void initState() {
     super.initState();
+    // add();
+    // add();
+    // add();
+    // add();
+    // add();
+    // add();
+    // add();
+    // add();
+    // add();
+    // add();
+    // add();
   }
 
   @override
@@ -55,12 +72,13 @@ class _CustomerordersState extends State<Customerorders> {
     var width = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      appBar: AppBar(backgroundColor: Colors.green,title: Center(child: Text("orders"),),),
       body: SafeArea(
         child: StreamBuilder(
             stream: FirebaseFirestore.instance
-                .collection("userorders")
-                .doc(userid)
-                .collection("myorders").where('customerid',isEqualTo: widget.customerid)
+                           .collection("users")
+        .doc(userid)
+        .collection("orders").where('customerid',isEqualTo: widget.customerid)
                 .snapshots(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -72,10 +90,13 @@ class _CustomerordersState extends State<Customerorders> {
 
               return ListView(children: [
                 ...snapshot.data!.docs.map((document) {
-                  var post;
+                  var post, price, status;
+
                   try {
                     setState(() {
                       post = document['post'];
+                      price = document['price'];
+                      status = document['status'];
                     });
                   } catch (e) {}
                   Color randomColor() {
@@ -104,6 +125,9 @@ class _CustomerordersState extends State<Customerorders> {
                     width: width,
                     id: document.id,
                     userid: userid,
+                    status1: status,
+                    price: price,
+                    status2: status,
                   );
                   // return Container(
                   // height: double.maxFinite,
@@ -181,16 +205,19 @@ class _CustomerordersState extends State<Customerorders> {
 }
 
 class Mycontainer extends StatefulWidget {
-  Mycontainer(
-      {Key? key,
-      required this.height,
-      required this.post,
-      required this.width,
-      required this.id,
-      required this.userid
-      // required this.selected,
-      })
-      : super(key: key);
+  Mycontainer({
+    Key? key,
+    required this.height,
+    required this.post,
+    required this.width,
+    required this.id,
+    required this.userid,
+    required this.price,
+    required this.status2,
+    required this.status1,
+
+    // required this.selected,
+  }) : super(key: key);
 
   final double height;
   final post;
@@ -198,8 +225,9 @@ class Mycontainer extends StatefulWidget {
   final id;
   final userid;
   // final String? selected;
-  var price = 2000;
-  var status2 = "pending";
+  var price;
+  var status2;
+  var status1;
 
   @override
   _MycontainerState createState() => _MycontainerState();
@@ -250,9 +278,7 @@ class _MycontainerState extends State<Mycontainer> {
                       title: Container(
                         width: 0.5 * widget.width,
                         child: DropdownButton<String>(
-                          value: selected == null
-                              ? widget.post[0]['status']
-                              : selected,
+                          value: selected == null ? widget.status1 : selected,
                           items: <String>[
                             // post[0]['status'],
                             'pending',
@@ -304,9 +330,10 @@ class _MycontainerState extends State<Mycontainer> {
                                     .doc(widget.userid)
                                     .set({'revenue': total});
                               }
-
+                              if (mounted) {
+                                setState(() => widget.status2 = value!);
+                              }
                               //add to revenue
-                              setState(() => widget.status2 = value!);
                             } else if (widget.status2 == "recieved" &&
                                 selected != "recieved") {
                               var revenue = 0;
@@ -344,20 +371,22 @@ class _MycontainerState extends State<Mycontainer> {
                                     .doc(widget.userid)
                                     .set({'revenue': total});
                               }
-
+        if (mounted) {
+                              setState(() => widget.status2 = value!);
+                              }
                               //remove to revenue
-                              setState(() => widget.status2 = value!);
                             } else {
+     if (mounted) {
                               setState(() => widget.status2 = value!);
-                            }
+                              }                            }
 
                             // try {
-                               await FirebaseFirestore.instance
-        .collection("userorders")
-        .doc(widget.userid)
-        .collection("myorders").doc(widget.id).update({
-"post"[0]:{'status':selected}
-        });
+                            await FirebaseFirestore.instance
+                                .collection("userorders")
+                                .doc(widget.userid)
+                                .collection("myorders")
+                                .doc(widget.id)
+                                .update({"status": selected});
                             // } catch (e) {
 
                             // }
