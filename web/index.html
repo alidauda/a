@@ -25,6 +25,8 @@
 
   <title>my_ap</title>
   <link rel="manifest" href="manifest.json">
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-messaging.js"></script>
 </head>
 <body>
   <!-- This script installs service_worker.js to provide PWA functionality to
@@ -94,5 +96,21 @@
       loadMainDartJs();
     }
   </script>
+ <script>
+  var firebaseConfig = {
+  apiKey: "AIzaSyBgkr-rx7rP2lZtI-YxpyGWROzOhjss9D8",
+  authDomain: "shopmakeitfast.firebaseapp.com",
+  projectId: "shopmakeitfast",
+  storageBucket: "shopmakeitfast.appspot.com",
+  messagingSenderId: "552023197654",
+  appId: "1:552023197654:web:56cb2a418153f2d81d4677",
+  measurementId: "G-QNDBT8JDP6"
+};
+
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
+<script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
 </body>
 </html>

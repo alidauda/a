@@ -204,7 +204,7 @@ class _RegisterState extends State<Register> {
                 }
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Choose()),
+                  MaterialPageRoute(builder: (context) => MyStatefulWidget()),
                 );
               },
             ),

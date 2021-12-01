@@ -126,7 +126,8 @@ class _HomePageState extends State<HomePageScreen> {
                 borderRadius: BorderRadius.circular(15),
                 color: randomColor(),
               ),
-              child: Image.network(
+              child: 
+              data["images"]==null?SizedBox.shrink():Image.network(
               
                 
     data["images"][0],
@@ -149,7 +150,7 @@ class _HomePageState extends State<HomePageScreen> {
 
               Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Viewitem(data)),);
+                  MaterialPageRoute(builder: (context) => Viewitem(data,model.id)),);
           // Navigator.of(context).pushNamed( DetailScreen.routeName, arguments: {
           //   "id":data["doctorId"],
           //   "desc":data["about"],

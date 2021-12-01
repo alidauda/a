@@ -90,45 +90,112 @@ class _CustomerordersState extends State<Customerorders> {
 
               return ListView(children: [
                 ...snapshot.data!.docs.map((document) {
-                  var post, price, status;
+                      var 
+                              total,
+                              status,
+                              accepted,
+                              image,
+                              quan,
+                              address,
+                              alt,
+                              name,
+                              orderId,
+                              phoneNumber,
+                              price,
+                              quantity,
+                              slug,
+                              title,
+                              usename,
+                              userUID;
 
-                  try {
-                    setState(() {
-                      post = document['post'];
-                      price = document['price'];
-                      status = document['status'];
-                    });
-                  } catch (e) {}
-                  Color randomColor() {
-                    var random = Random();
-                    final colorList = [
-                      Theme.of(context).primaryColor,
-                      LightColor.orange,
-                      LightColor.green,
-                      LightColor.grey,
-                      LightColor.lightOrange,
-                      LightColor.skyBlue,
-                      LightColor.titleTextColor,
-                      Colors.red,
-                      Colors.brown,
-                      LightColor.purpleExtraLight,
-                      LightColor.skyBlue,
-                    ];
-                    var color = colorList[random.nextInt(colorList.length)];
-                    return color;
-                  }
+                          try {
+                            setState(() {
+                              // post = document['post'];
+                              total = document['total'];
+                              accepted = document['accepted'];
+                              status = document['status'];
+                              quan = document['quantity'];
+                              image = document["image"];
+                              address = document["address"];
+                              alt = document["alt"];
+                              name = document["name"];
+                              orderId = document["orderId"];
+                              phoneNumber = document["phoneNumber"];
+                              price = document["price"];
+                              quantity = document["quantity"];
+                              slug = document["slug"];
+                              status = document["status"];
+                              title = document["title"];
+                              usename = document["usename"];
+                              userUID = document["userUID"];
+                              // quantity = document["quantity"];
+                              // post.add({
+                              //   "image": image,
+                              //   "address": address,
+                              //   "alt": alt,
+                              //   "name": name,
+                              //   "orderId": orderId,
+                              //   "phoneNumber": phoneNumber,
+                              //   "price": price,
+                              //   "quantity": quantity,
+                              //   "slug": slug,
+                              //   "status": status,
+                              //   "title": title,
+                              //   "usename": usename,
+                              //   "userUID": userUID
+                              // });
 
-                  // return Text(post.toString());
-                  return Mycontainer(
-                    height: height,
-                    post: post,
-                    width: width,
-                    id: document.id,
-                    userid: userid,
-                    status1: status,
-                    price: price,
-                    status2: status,
-                  );
+                              // print(post);
+                            });
+                          } catch (e) {}
+
+                          Color randomColor() {
+                            var random = Random();
+                            final colorList = [
+                              Theme.of(context).primaryColor,
+                              LightColor.orange,
+                              LightColor.green,
+                              LightColor.grey,
+                              LightColor.lightOrange,
+                              LightColor.skyBlue,
+                              LightColor.titleTextColor,
+                              Colors.red,
+                              Colors.brown,
+                              LightColor.purpleExtraLight,
+                              LightColor.skyBlue,
+                            ];
+                            var color =
+                                colorList[random.nextInt(colorList.length)];
+                            return color;
+                          }
+
+                          // return Text(post.toString());
+                          return Mycontainer(
+                            height: height,
+                            // post: post,
+                            width: width,
+                            id: document.id,
+                            userid: userid!.uid,
+                            status1: status,
+                            total: total,
+                            status2: status,
+                            accepted: accepted,
+                            image: image,
+                            quan: quan,
+                                          // "image": image,
+                                address: address,
+                                alt: alt,
+                                name: name,
+                                orderId: orderId,
+                                phoneNumber: phoneNumber,
+                                price: price,
+                                quantity: quantity,
+                                // slug: slug,
+                                status: status,
+                                // title: title,
+                                // usename: usename,
+                                // userUID: userUID
+                          );
                   // return Container(
                   // height: double.maxFinite,
                   //   child: ListView.builder(
@@ -206,28 +273,34 @@ class _CustomerordersState extends State<Customerorders> {
 
 class Mycontainer extends StatefulWidget {
   Mycontainer({
+  
+  required this.name,required this.alt,required this.phoneNumber,required this.orderId,required this.status,required this.price,required this.quantity,required this.address,
     Key? key,
     required this.height,
-    required this.post,
+    // required this.post,
     required this.width,
     required this.id,
     required this.userid,
-    required this.price,
+    required this.total,
     required this.status2,
     required this.status1,
+    required this.accepted,
+    required this.image,
+    required this.quan,
 
     // required this.selected,
   }) : super(key: key);
 
   final double height;
-  final post;
+  // final post;
   final double width;
   final id;
   final userid;
   // final String? selected;
-  var price;
+  var total;
   var status2;
-  var status1;
+  var status1, accepted, image, quan;
+  var name,alt,phoneNumber,orderId,status,price,quantity,address;
 
   @override
   _MycontainerState createState() => _MycontainerState();
@@ -238,8 +311,10 @@ class _MycontainerState extends State<Mycontainer> {
 
   @override
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
     return Container(
-      height: 0.24 * widget.height,
+      height: 0.22 * widget.height,
       child: Column(
         children: [
           Container(
@@ -261,138 +336,279 @@ class _MycontainerState extends State<Mycontainer> {
               ],
             ),
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
               child: Column(
                 children: [
                   ListTile(
+                    trailing:
+                        // Text(widget.post[0]['image'].toString()),
+                        Text(
+                            widget.quan == null ? "1" : widget.quan.toString()),
+                    leading: ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(13)),
+                      child: Container(
+                        height: 55,
+                        width: 55,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          // color: Colors.green,
+                        ),
+                        child: widget.image == null
+                            ? Icon(Icons.category_sharp)
+                            : Image.network(
+                                widget.image,
+                                height: 50,
+                                width: 50,
+                                fit: BoxFit.fill,
+                              ),
+                      ),
+                    ),
                     title: Text("order #" + widget.id),
                     //  Text(widget.post[0]['username'] +
                     //     "ordered" +
                     //     widget.post[0]['content']),
-                    subtitle: Text('at' + widget.post[0]['createdAt']),
                   ),
                   Container(
                     width: 0.9 * widget.width,
                     // height: 0.2*height,
                     child: ListTile(
-                      title: Container(
-                        width: 0.5 * widget.width,
-                        child: DropdownButton<String>(
-                          value: selected == null ? widget.status1 : selected,
-                          items: <String>[
-                            // post[0]['status'],
-                            'pending',
-                            'delivering',
-                            'delivered',
-                            'recieved'
-                          ].map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (value) async {
-                            setState(() => selected = value);
+                      title: widget.accepted == null
+                          ? Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 18, vertical: 8),
+                              // child:  Padding(
+                              // padding: const EdgeInsets.only(left: 40,right: 40),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    width: 0.2 * width,
+                                    child: ElevatedButton(
+                                        style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateProperty.all<
+                                                    Color>(Colors.red),
+                                            shape: MaterialStateProperty.all<
+                                                    RoundedRectangleBorder>(
+                                                RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            18.0),
+                                                    side: BorderSide(
+                                                        color: Colors.red)))),
+                                        onPressed: () async {
+                                          // try {
+                                          await FirebaseFirestore.instance
+                                              .collection("users")
+                                              .doc(widget.userid)
+                                              .collection("orders")
+                                              .doc(widget.id)
+                                              .update({"accepted": false});
+                                        },
+                                        child: Text(
+                                          "reject",
+                                          // style: TextStyle(color: Colors.green),
+                                        )),
+                                  ),
+                                  Container(
+                                    width: 0.2 * width,
+                                    child: ElevatedButton(
+                                        style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateProperty.all<
+                                                    Color>(Colors.green),
+                                            shape: MaterialStateProperty.all<
+                                                    RoundedRectangleBorder>(
+                                                RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            18.0),
+                                                    side: BorderSide(
+                                                        color: Colors.green)))),
+                                        onPressed: () async {
+                                          await FirebaseFirestore.instance
+                                              .collection("users")
+                                              .doc(widget.userid)
+                                              .collection("orders")
+                                              .doc(widget.id)
+                                              .update({"accepted": true});
+                                        },
+                                        child: Text(
+                                          "accept",
+                                          // style: TextStyle(color: Colors.green),
+                                        )),
+                                  ),
+                                ],
+                              ),
+                              // ,
+                            )
+                          : widget.accepted == false
+                              ? Container(
+                                  width: 0.2 * width,
+                                  child:
+                                      // ElevatedButton(
 
-                            if (widget.status2 != "recieved" &&
-                                selected == "recieved") {
-                              var revenue = 0;
-                              try {
-                                await FirebaseFirestore.instance
-                                    .collection('revenue')
-                                    .doc(widget.userid)
-                                    .get()
-                                    .then((DocumentSnapshot documentSnapshot) {
-                                  // if (documentSnapshot.exists) {
-                                  print(
-                                      'Document data: ${documentSnapshot.data()}');
-                                  Map<String, dynamic> data = documentSnapshot
-                                      .data()! as Map<String, dynamic>;
+                                      // onPressed: () {},
+                                      // child:
+                                      Text(
+                                    "rejected",
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                  // ),
+                                  )
+                              : widget.status2 == "delivered"
+                                  ? Container(
+                                      width: 0.2 * width,
+                                      child: ElevatedButton(
+                                          style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all<
+                                                      Color>(Colors.green),
+                                              shape: MaterialStateProperty.all<
+                                                      RoundedRectangleBorder>(
+                                                  RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              18.0),
+                                                      side: BorderSide(
+                                                          color:
+                                                              Colors.green)))),
+                                          onPressed: () {},
+                                          child: Text(
+                                            "delivered",
+                                            // style: TextStyle(color: Colors.green),
+                                          )),
+                                    )
+                                  : Container(
+                                      width: 0.5 * widget.width,
+                                      child: DropdownButton<String>(
+                                        value: selected == null
+                                            ? widget.status1
+                                            : selected,
+                                        items: <String>[
+                                          // post[0]['status'],
+                                          'pending',
+                                          'delivering',
+                                          // 'delivered',
+                                          'delivered'
+                                        ].map((value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Text(value),
+                                          );
+                                        }).toList(),
+                                        onChanged: (value) async {
+                                          setState(() => selected = value);
 
-                                  setState(() {
-                                    revenue = data["revenue"];
-                                  });
-                                  // } else {
-                                  //   print('Document does not exist on the database');
-                                  // }
-                                });
-                              } catch (e) {}
+                                          if (widget.status2 != "delivered" &&
+                                              selected == "delivered") {
+                                            var revenue = 0;
+                                            try {
+                                              await FirebaseFirestore.instance
+                                                  .collection('revenue')
+                                                  .doc(widget.userid)
+                                                  .get()
+                                                  .then((DocumentSnapshot
+                                                      documentSnapshot) {
+                                                // if (documentSnapshot.exists) {
+                                                print(
+                                                    'Document data: ${documentSnapshot.data()}');
+                                                Map<String, dynamic> data =
+                                                    documentSnapshot.data()!
+                                                        as Map<String, dynamic>;
 
-                              var total = revenue + widget.price;
-                              try {
-                                await FirebaseFirestore.instance
-                                    .collection('revenue')
-                                    .doc(widget.userid)
-                                    .update({'revenue': total});
-                              } catch (e) {
-                                await FirebaseFirestore.instance
-                                    .collection('revenue')
-                                    .doc(widget.userid)
-                                    .set({'revenue': total});
-                              }
-                              if (mounted) {
-                                setState(() => widget.status2 = value!);
-                              }
-                              //add to revenue
-                            } else if (widget.status2 == "recieved" &&
-                                selected != "recieved") {
-                              var revenue = 0;
-                              try {
-                                await FirebaseFirestore.instance
-                                    .collection('revenue')
-                                    .doc(widget.userid)
-                                    .get()
-                                    .then((DocumentSnapshot documentSnapshot) {
-                                  // if (documentSnapshot.exists) {
-                                  print(
-                                      'Document data: ${documentSnapshot.data()}');
-                                  Map<String, dynamic> data = documentSnapshot
-                                      .data()! as Map<String, dynamic>;
+                                                setState(() {
+                                                  revenue = data["revenue"];
+                                                });
+                                                // } else {
+                                                //   print('Document does not exist on the database');
+                                                // }
+                                              });
+                                            } catch (e) {}
 
-                                  setState(() {
-                                    revenue = data["revenue"];
-                                  });
-                                  // } else {
-                                  //   print('Document does not exist on the database');
-                                  // }
-                                });
-                              } catch (e) {}
+                                            var total = revenue + widget.total;
+                                            try {
+                                              await FirebaseFirestore.instance
+                                                  .collection('revenue')
+                                                  .doc(widget.userid)
+                                                  .update({'revenue': total});
+                                            } catch (e) {
+                                              await FirebaseFirestore.instance
+                                                  .collection('revenue')
+                                                  .doc(widget.userid)
+                                                  .set({'revenue': total});
+                                            }
+                                            if (mounted) {
+                                              setState(() =>
+                                                  widget.status2 = value!);
+                                            }
+                                            //add to revenue
+                                          } else if (widget.status2 ==
+                                                  "delivered" &&
+                                              selected != "delivered") {
+                                            var revenue = 0;
+                                            try {
+                                              await FirebaseFirestore.instance
+                                                  .collection('revenue')
+                                                  .doc(widget.userid)
+                                                  .get()
+                                                  .then((DocumentSnapshot
+                                                      documentSnapshot) {
+                                                // if (documentSnapshot.exists) {
+                                                print(
+                                                    'Document data: ${documentSnapshot.data()}');
+                                                Map<String, dynamic> data =
+                                                    documentSnapshot.data()!
+                                                        as Map<String, dynamic>;
 
-                              var total = revenue - widget.price;
+                                                setState(() {
+                                                  revenue = data["revenue"];
+                                                });
+                                                // } else {
+                                                //   print('Document does not exist on the database');
+                                                // }
+                                              });
+                                            } catch (e) {}
 
-                              try {
-                                await FirebaseFirestore.instance
-                                    .collection('revenue')
-                                    .doc(widget.userid)
-                                    .update({'revenue': total});
-                              } catch (e) {
-                                await FirebaseFirestore.instance
-                                    .collection('revenue')
-                                    .doc(widget.userid)
-                                    .set({'revenue': total});
-                              }
-        if (mounted) {
-                              setState(() => widget.status2 = value!);
-                              }
-                              //remove to revenue
-                            } else {
-     if (mounted) {
-                              setState(() => widget.status2 = value!);
-                              }                            }
+                                            var total = revenue - widget.total;
 
-                            // try {
-                            await FirebaseFirestore.instance
-                                .collection("userorders")
-                                .doc(widget.userid)
-                                .collection("myorders")
-                                .doc(widget.id)
-                                .update({"status": selected});
-                            // } catch (e) {
+                                            try {
+                                              await FirebaseFirestore.instance
+                                                  .collection('revenue')
+                                                  .doc(widget.userid)
+                                                  .update({'revenue': total});
+                                            } catch (e) {
+                                              await FirebaseFirestore.instance
+                                                  .collection('revenue')
+                                                  .doc(widget.userid)
+                                                  .set({'revenue': total});
+                                            }
+                                            if (mounted) {
+                                              setState(() =>
+                                                  widget.status2 = value!);
+                                            }
+                                            //remove to revenue
+                                          } else {
+                                            if (mounted) {
+                                              setState(() =>
+                                                  widget.status2 = value!);
+                                            }
+                                          }
 
-                            // }
-                          },
-                        ),
-                      ),
+                                          // try {
+                                          await FirebaseFirestore.instance
+                                              .collection("users")
+                                              .doc(widget.userid)
+                                              .collection("orders")
+                                              .doc(widget.id)
+                                              .update({"status": selected});
+                                          // } catch (e) {
+
+                                          // }
+                                        },
+                                      ),
+                                    ),
                       trailing: Container(
                         width: 0.2 * widget.width,
                         child: ElevatedButton(
@@ -411,8 +627,9 @@ class _MycontainerState extends State<Mycontainer> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        Orderview(widget.post)),
+                                    builder: (context) => Orderview(
+                                          widget.image,widget.name,widget.alt,widget.phoneNumber,widget.orderId,widget.status,widget.price,widget.quantity,widget.address,
+                                        )),
                               );
                             },
                             child: Text(

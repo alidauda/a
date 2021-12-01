@@ -293,7 +293,7 @@ child:Text(value)
                               onChanged: (value){
 
     if (_debounce?.isActive ?? false) _debounce.cancel();
-    _debounce = Timer(const Duration(milliseconds: 500), () async {
+    _debounce = Timer(const Duration(milliseconds: 3000), () async {
         // do something with query
         var query =numbercontroller.text;
         print("ssssssssssssssssssssssssssssssssssssssssss");
@@ -308,6 +308,7 @@ child:Text(value)
     Map res= jsonDecode(response.body);
     setState(() {
       account_name=res["data"]["account_name"];
+      namecontroller.text=account_name.toString();
     });
         
     });

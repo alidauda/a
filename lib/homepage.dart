@@ -73,7 +73,7 @@ void initState() {
             backgroundColor: Colors.green,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.category_sharp),
+            icon: Icon(Icons.production_quantity_limits_rounded ),
             label: 'orders',
             backgroundColor: Colors.green,
           ),

@@ -3,59 +3,53 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'theme/extention.dart';
 import 'orderviewpage.dart';
 import 'theme/light_color.dart';
 import 'theme/text_styles.dart';
-User? userid = FirebaseAuth.instance.currentUser;
-class Myorders extends StatefulWidget {
-  
 
+User? userid = FirebaseAuth.instance.currentUser;
+var type;
+
+class Myorders extends StatefulWidget {
   @override
   _MyordersState createState() => _MyordersState();
 }
 
 class _MyordersState extends State<Myorders> {
-  
   add() async {
     await FirebaseFirestore.instance
         .collection("users")
         .doc(userid!.uid)
         .collection("orders")
         .add({
-      "customerid": "asa",
-      "price": 4000,
+      // "image":"https://firebasestorage.googleapis.com/v0/b/shopmakeitfast.appspot.com/o/cloudpost_2896b55b-89e8-452d-a3ba-cab89f7bc881.jpg?alt=media&token=63840b74-77fc-4159-ba12-a3b3479d22a8",
+
+      "userUID": "asa",
+      "total": 4000,
       "status": "pending",
-      'post': [
-        {
-          "content": "kai ka siyo min abbin nan",
-          "createdAt": "21, Dec,2021",
-          "status": "delivering",
-          "username": "ali d"
-        },
-        {
-          "content": "kai ka siyo min abbin nan",
-          "createdAt": "21, Dec,2021",
-          "status": "delivered",
-          "username": "ali d"
-        },
-        {
-          "content": "kai ka siyo min abbin nan",
-          "createdAt": "21, Dec,2021",
-          "status": "pending",
-          "username": "ali d"
-        },
-      ]
+
+      "image":
+          "https://firebasestorage.googleapis.com/v0/b/shopmakeitfast.appspot.com/o/cloudpost_2896b55b-89e8-452d-a3ba-cab89f7bc881.jpg?alt=media&token=63840b74-77fc-4159-ba12-a3b3479d22a8",
+      "address": "address",
+      "alt": "fatar doki",
+      "name": "asa sauce",
+      "orderId": "orderId",
+      "phoneNumber": "phoneNumber",
+      "price": "price",
+      "quantity": "7",
+      "slug": "bagccd10556-e6eb-481d-8057-3022c9a58a7e",
+      // "status": "status",
+      "title": "bag",
+      "usename": "usename",
+      // "userUID": "userUID"
     });
   }
 
   @override
   void initState() {
     super.initState();
-    // add();
-    // add();
-    // add();
-    // add();
     // add();
     // add();
     // add();
@@ -72,132 +66,439 @@ class _MyordersState extends State<Myorders> {
 
     return Scaffold(
       body: SafeArea(
-        child: StreamBuilder(
-            stream: FirebaseFirestore.instance
-              .collection("users")
-        .doc(userid!.uid)
-        .collection("orders")
-                .snapshots(),
-            builder:
-                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (!snapshot.hasData) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
+        child: Container(
+          height: 0.8 * height,
+          child: ListView(
+            children: [
+              Container(
+                width: 0.9 * width,
+                height: 0.1 * height,
+                child:  ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      Container(
+                        width: 0.25 * width,
+                        child: Center(
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Colors.white),
+                                shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(18.0),
+                                        side:
+                                            BorderSide(color: Colors.green)))),
+                            onPressed: () {
+                              setState(() {
+                                type = null;
+                              });
+                              // Share.share(
+                              //     'check out my website https://www.shopity.me/$username');
 
-              return ListView(children: [
-                ...snapshot.data!.docs.map((document) {
-                  var post, price, status;
+                              //                              Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //       builder: (context) => Orderview(widget.post)),
+                              // );
+                            },
+                            child: Text(
+                              "all",
+                              style: TextStyle(color: Colors.green),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 0.32 * width,
+                        child: Center(
+                          child: ElevatedButton(
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.white),
+                                  shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(18.0),
+                                          side: BorderSide(
+                                              color: Colors.green)))),
+                              onPressed: () {
+                                setState(() {
+                                  type = "delivering";
+                                });
+                                // Share.share(
+                                //     'check out my website https://www.shopity.me/$username');
 
-                  try {
-                    setState(() {
-                      post = document['post'];
-                      price = document['price'];
-                      status = document['status'];
-                      print(post);
-                    });
-                  } catch (e) {}
-                  Color randomColor() {
-                    var random = Random();
-                    final colorList = [
-                      Theme.of(context).primaryColor,
-                      LightColor.orange,
-                      LightColor.green,
-                      LightColor.grey,
-                      LightColor.lightOrange,
-                      LightColor.skyBlue,
-                      LightColor.titleTextColor,
-                      Colors.red,
-                      Colors.brown,
-                      LightColor.purpleExtraLight,
-                      LightColor.skyBlue,
-                    ];
-                    var color = colorList[random.nextInt(colorList.length)];
-                    return color;
-                  }
+                                //                              Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //       builder: (context) => Orderview(widget.post)),
+                                // );
+                              },
+                              child: Text(
+                                "delivering",
+                                style: TextStyle(color: Colors.green),
+                              )),
+                        ),
+                      ),
+                      Container(
+                        width: 0.27 * width,
+                        child: Center(
+                          child: ElevatedButton(
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.white),
+                                  shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(18.0),
+                                          side: BorderSide(
+                                              color: Colors.green)))),
+                              onPressed: () {
+                                setState(() {
+                                  type = "delivered";
+                                });
+                                // Share.share(
+                                //     'check out my website https://www.shopity.me/$username');
 
-                  // return Text(post.toString());
-                  return Mycontainer(
-                    height: height,
-                    post: post,
-                    width: width,
-                    id: document.id,
-                    userid: userid!.uid,
-                    status1: status,
-                    price: price,
-                    status2: status,
-                  );
-                  // return Container(
-                  // height: double.maxFinite,
-                  //   child: ListView.builder(
-                  //     shrinkWrap: true,
-                  //     itemCount: post.length,
-                  //     itemBuilder: (BuildContext context, int index) {
-                  //       // return Container(
-                  //       //                         height: 0.3*height,
+                                //                              Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //       builder: (context) => Orderview(widget.post)),
+                                // );
+                              },
+                              child: Text(
+                                "delivered",
+                                style: TextStyle(color: Colors.green),
+                              )),
+                        ),
+                      ),
+                      // Container(
+                      //   width: 0.22 * width,
+                      //   child: Center(
+                      //     child: ElevatedButton(
+                      //         style: ButtonStyle(
+                      //             backgroundColor:
+                      //                 MaterialStateProperty.all<Color>(Colors.white),
+                      //             shape:
+                      //                 MaterialStateProperty.all<RoundedRectangleBorder>(
+                      //                     RoundedRectangleBorder(
+                      //                         borderRadius: BorderRadius.circular(18.0),
+                      //                         side: BorderSide(color: Colors.green)))),
+                      //         onPressed: () {
+                      //           // Share.share(
+                      //           //     'check out my website https://www.shopity.me/$username');
 
-                  //       //   child: Column(
-                  //       //     children: [
-                  //       //       ListTile(
-                  //       //         title: Text(post[index]['username'] +
-                  //       //             "ordered" +
-                  //       //             post[index]['content']),
-                  //       //         subtitle:
-                  //       //             Text('at' + post[index]['createdAt']),
-                  //       //       ),
-                  //       //       Container(
+                      //           //                              Navigator.push(
+                      //           //   context,
+                      //           //   MaterialPageRoute(
+                      //           //       builder: (context) => Orderview(widget.post)),
+                      //           // );
+                      //         },
+                      //         child:   Text(
+                      //               "accepted",
+                      //               style: TextStyle(color: Colors.green),
+                      //             )),
+                      //   ),
+                      // ),Container(
+                      //   width: 0.22 * width,
+                      //   child: Center(
+                      //     child: ElevatedButton(
+                      //         style: ButtonStyle(
+                      //             backgroundColor:
+                      //                 MaterialStateProperty.all<Color>(Colors.white),
+                      //             shape:
+                      //                 MaterialStateProperty.all<RoundedRectangleBorder>(
+                      //                     RoundedRectangleBorder(
+                      //                         borderRadius: BorderRadius.circular(18.0),
+                      //                         side: BorderSide(color: Colors.green)))),
+                      //         onPressed: () {
+                      //           // Share.share(
+                      //           //     'check out my website https://www.shopity.me/$username');
 
-                  //       //   width: 0.9*width,
-                  //       //                         // height: 0.2*height,
-                  //       //         child: ListTile(
-                  //       //           title: Container(
-                  //       //              width: 0.5*width,
-                  //       //             child: DropdownButton<String>(
-                  //       //               items: <String>[
-                  //       //                 post[index]['status'],
-                  //       //                 'pending',
-                  //       //                 'delivering',
-                  //       //                 'delivered',
-                  //       //                 'recieved'
-                  //       //               ].map((String value) {
-                  //       //                 return DropdownMenuItem<String>(
-                  //       //                   value: value,
-                  //       //                   child: Text(value),
-                  //       //                 );
-                  //       //               }).toList(),
-                  //       //               onChanged: (_) {},
-                  //       //             ),
-                  //       //           ),
-                  //       //           trailing: Container(
-                  //       //              width: 0.2*width,
-                  //       //             child: ElevatedButton(
-                  //       //                 style: ButtonStyle(
-                  //       //                     shape: MaterialStateProperty.all<
-                  //       //                             RoundedRectangleBorder>(
-                  //       //                         RoundedRectangleBorder(
-                  //       //                             borderRadius:
-                  //       //                                 BorderRadius.circular(
-                  //       //                                     18.0),
-                  //       //                             side: BorderSide(
-                  //       //                                 color: Colors.red)))),
-                  //       //                 onPressed: () {},
-                  //       //                 child: Text(
-                  //       //                   "view",
-                  //       //                   style: TextStyle(color: Colors.orange),
-                  //       //                 )),
-                  //       //           ),
-                  //       //         ),
-                  //       //       )
-                  //       //     ],
-                  //       //   ),
-                  //       // );
-                  //     },
-                  //   ),
-                  // );
-                }).toList(),
-              ]);
-            }),
+                      //           //                              Navigator.push(
+                      //           //   context,
+                      //           //   MaterialPageRoute(
+                      //           //       builder: (context) => Orderview(widget.post)),
+                      //           // );
+                      //         },
+                      //         child:   Text(
+                      //               "rejected",
+                      //               style: TextStyle(color: Colors.green),
+                      //             )),
+                      //   ),
+                      // ),
+                    ],
+                  ),
+                ),
+              
+              Container(
+                // width: 0,
+                height: 0.7 * height,
+                child: StreamBuilder(
+                    stream: type == null
+                        ? FirebaseFirestore.instance
+                            .collection("users")
+                            .doc(userid!.uid)
+                            .collection("orders")
+                            .snapshots()
+                        : FirebaseFirestore.instance
+                            .collection("users")
+                            .doc(userid!.uid)
+                            .collection("orders")
+                            .where("status", isEqualTo: type)
+                            .snapshots(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (!snapshot.hasData) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+
+                      return ListView(children: [
+                        ...snapshot.data!.docs.map((document) {
+                          // List post=[];
+                          var total,
+                              status,
+                              accepted,
+                              image,
+                              quan,
+                              address,
+                              alt,
+                              name,
+                              orderId,
+                              phoneNumber,
+                              price,
+                             
+                              slug,
+                              title,
+                              usename,
+                              userUID,createdAt;
+
+                          try {
+                            // setState(() {
+                              // post = document['post'];
+                              try {
+                                title = document["title"];
+                              } catch (e) {}   try {
+                                userUID = document["userUID"];
+                              } catch (e) {}
+                              try {
+                                usename = document["usename"];
+                              } catch (e) {}
+                              try {
+                                title = document["title"];
+                              } catch (e) {}
+                              try {
+                                status = document["status"];
+                              } catch (e) {}
+                              
+                              try {
+                                slug = document["slug"];
+                              } catch (e) {}
+                              try {
+                                price = document["price"];
+                              } catch (e) {}
+                              try {
+                                phoneNumber = document["phoneNumber"];
+                              } catch (e) {}
+                              try {
+                                orderId = document["orderId"];
+                              } catch (e) {}
+                              try {
+                                name = document["name"];
+                              } catch (e) {}
+                              try {
+                                alt = document["alt"];
+                              } catch (e) {}
+                              try {
+                                address = document["address"];
+                              } catch (e) {}
+                              try {
+                                image = document["image"];
+                              } catch (e) {}
+                              try {
+                                quan = document['quan'];
+                              } catch (e) {}
+                              try {
+                                status = document['status'];
+                              } catch (e) {}
+                              try {
+                                accepted = document['accepted'];
+                              } catch (e) {}
+                              try {
+                                total = document['price'];
+                              } catch (e) {}
+                                                  try {
+                                createdAt = document["createdAt"];
+                                print(createdAt);
+                                print(createdAt);
+                                print(createdAt);
+                                print(createdAt);
+                                print(createdAt);
+                                print(createdAt);
+                                print(createdAt);
+                                print(createdAt);
+                                print(createdAt);
+                                print(createdAt);
+                              } catch (e) {}
+                          
+                              // quantity = document["quantity"];
+                              // post.add({
+                              //   "image": image,
+                              //   "address": address,
+                              //   "alt": alt,
+                              //   "name": name,
+                              //   "orderId": orderId,
+                              //   "phoneNumber": phoneNumber,
+                              //   "price": price,
+                              //   "quantity": quantity,
+                              //   "slug": slug,
+                              //   "status": status,
+                              //   "title": title,
+                              //   "usename": usename,
+                              //   "userUID": userUID
+                              // });
+
+                              // print(post);
+                            // });
+                          } catch (e) {
+                            final snackBar =
+                                SnackBar(content: Text(e.toString()));
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          }
+
+                          Color randomColor() {
+                            var random = Random();
+                            final colorList = [
+                              Theme.of(context).primaryColor,
+                              LightColor.orange,
+                              LightColor.green,
+                              LightColor.grey,
+                              LightColor.lightOrange,
+                              LightColor.skyBlue,
+                              LightColor.titleTextColor,
+                              Colors.red,
+                              Colors.brown,
+                              LightColor.purpleExtraLight,
+                              LightColor.skyBlue,
+                            ];
+                            var color =
+                                colorList[random.nextInt(colorList.length)];
+                            return color;
+                          }
+
+                          // return Text(post.toString());
+                          return Mycontainer(
+                            title:title,
+                            createdAt:createdAt,
+                            height: height,
+                            // post: post,
+                            width: width,
+                            id: document.id,
+                            userid: userid!.uid,
+                            status1: status,
+                            total: total,
+                            status2: status,
+                            accepted: accepted,
+                            image: image,
+                            quan: quan,
+                            // "image": image,
+                            address: address,
+                            alt: alt,
+                            name: name,
+                            orderId: orderId,
+                            phoneNumber: phoneNumber,
+                            price: price,
+                            quantity: quan,
+                            // slug: slug,
+                            status: status,
+                            // title: title,
+                            // usename: usename,
+                            // userUID: userUID
+                          );
+                          // return Container(
+                          // height: double.maxFinite,
+                          //   child: ListView.builder(
+                          //     shrinkWrap: true,
+                          //     itemCount: post.length,
+                          //     itemBuilder: (BuildContext context, int index) {
+                          //       // return Container(
+                          //       //                         height: 0.3*height,
+
+                          //       //   child: Column(
+                          //       //     children: [
+                          //       //       ListTile(
+                          //       //         title: Text(post[index]['username'] +
+                          //       //             "ordered" +
+                          //       //             post[index]['content']),
+                          //       //         subtitle:
+                          //       //             Text('at' + post[index]['createdAt']),
+                          //       //       ),
+                          //       //       Container(
+
+                          //       //   width: 0.9*width,
+                          //       //                         // height: 0.2*height,
+                          //       //         child: ListTile(
+                          //       //           title: Container(
+                          //       //              width: 0.5*width,
+                          //       //             child: DropdownButton<String>(
+                          //       //               items: <String>[
+                          //       //                 post[index]['status'],
+                          //       //                 'pending',
+                          //       //                 'delivering',
+                          //       //                 'delivered',
+                          //       //                 'recieved'
+                          //       //               ].map((String value) {
+                          //       //                 return DropdownMenuItem<String>(
+                          //       //                   value: value,
+                          //       //                   child: Text(value),
+                          //       //                 );
+                          //       //               }).toList(),
+                          //       //               onChanged: (_) {},
+                          //       //             ),
+                          //       //           ),
+                          //       //           trailing: Container(
+                          //       //              width: 0.2*width,
+                          //       //             child: ElevatedButton(
+                          //       //                 style: ButtonStyle(
+                          //       //                     shape: MaterialStateProperty.all<
+                          //       //                             RoundedRectangleBorder>(
+                          //       //                         RoundedRectangleBorder(
+                          //       //                             borderRadius:
+                          //       //                                 BorderRadius.circular(
+                          //       //                                     18.0),
+                          //       //                             side: BorderSide(
+                          //       //                                 color: Colors.red)))),
+                          //       //                 onPressed: () {},
+                          //       //                 child: Text(
+                          //       //                   "view",
+                          //       //                   style: TextStyle(color: Colors.orange),
+                          //       //                 )),
+                          //       //           ),
+                          //       //         ),
+                          //       //       )
+                          //       //     ],
+                          //       //   ),
+                          //       // );
+                          //     },
+                          //   ),
+                          // );
+                        }).toList(),
+                      ]);
+                    }),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -205,28 +506,37 @@ class _MyordersState extends State<Myorders> {
 
 class Mycontainer extends StatefulWidget {
   Mycontainer({
+  
+  required this.name,  required this.title,required this.alt,required this.phoneNumber,required this.orderId,required this.status,required this.price,required this.quantity,required this.address,
     Key? key,
     required this.height,
-    required this.post,
+    // required this.post,
     required this.width,
     required this.id,
     required this.userid,
-    required this.price,
+    required this.total,
     required this.status2,
     required this.status1,
+    required this.accepted,
+    required this.image,
+    required this.quan,
+    required this.createdAt,
+    // required this.title
+    
 
     // required this.selected,
   }) : super(key: key);
 
   final double height;
-  final post;
+  // final post;
   final double width;
   final id;
   final userid;
   // final String? selected;
-  var price;
+  int total;
   var status2;
-  var status1;
+  var status1, accepted, image, quan;
+  var name,alt,phoneNumber,orderId,status,price,quantity,address,createdAt,title;
 
   @override
   _MycontainerState createState() => _MycontainerState();
@@ -237,8 +547,10 @@ class _MycontainerState extends State<Mycontainer> {
 
   @override
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
     return Container(
-      height: 0.24 * widget.height,
+      height: 0.25 * widget.height,
       child: Column(
         children: [
           Container(
@@ -260,138 +572,289 @@ class _MycontainerState extends State<Mycontainer> {
               ],
             ),
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
               child: Column(
                 children: [
                   ListTile(
-                    title: Text("order #" + widget.id),
+                    trailing:Text(widget.createdAt==null?"no date":DateFormat.yMMMd().add_jm().format(DateTime.parse( widget.createdAt.toDate().toString()))),
+                    //  Text( DateTime.parse( widget.createdAt.toDate().toString()).toString()),
+                    subtitle:
+                        // Text(widget.post[0]['image'].toString()),
+                        Row(
+                          children: [
+                            Text("quantity: "),
+                            Text(
+                                widget.quan == null ? "1" : widget.quan.toString()),
+                          ],
+                        ),
+                    leading: ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(13)),
+                      child: Container(
+                        height: 55,
+                        width: 55,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          // color: Colors.green,
+                        ),
+                        child: widget.image == null
+                            ? Icon(Icons.category_sharp)
+                            : Image.network(
+                                widget.image,
+                                height: 50,
+                                width: 50,
+                                fit: BoxFit.fill,
+                              ),
+                      ),
+                    ),
+                    title: Text( widget.title.toString()),
                     //  Text(widget.post[0]['username'] +
                     //     "ordered" +
                     //     widget.post[0]['content']),
-                    
                   ),
                   Container(
                     width: 0.9 * widget.width,
                     // height: 0.2*height,
                     child: ListTile(
-                      title: Container(
-                        width: 0.5 * widget.width,
-                        child: DropdownButton<String>(
-                          value: selected == null ? widget.status1 : selected,
-                          items: <String>[
-                            // post[0]['status'],
-                            'pending',
-                            'delivering',
-                            'delivered',
-                            'recieved'
-                          ].map((value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (value) async {
-                            setState(() => selected = value);
+                      title: widget.accepted == null
+                          ? Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 18, vertical: 8),
+                              // child:  Padding(
+                              // padding: const EdgeInsets.only(left: 40,right: 40),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    width: 0.2 * width,
+                                    child: ElevatedButton(
+                                        style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateProperty.all<
+                                                    Color>(Colors.red),
+                                            shape: MaterialStateProperty.all<
+                                                    RoundedRectangleBorder>(
+                                                RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            18.0),
+                                                    side: BorderSide(
+                                                        color: Colors.red)))),
+                                        onPressed: () async {
+                                          // try {
+                                          await FirebaseFirestore.instance
+                                              .collection("users")
+                                              .doc(widget.userid)
+                                              .collection("orders")
+                                              .doc(widget.id)
+                                              .update({"accepted": false});
+                                        },
+                                        child: Text(
+                                          "reject",
+                                          // style: TextStyle(color: Colors.green),
+                                        )),
+                                  ),
+                                  Container(
+                                    width: 0.2 * width,
+                                    child: ElevatedButton(
+                                        style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateProperty.all<
+                                                    Color>(Colors.green),
+                                            shape: MaterialStateProperty.all<
+                                                    RoundedRectangleBorder>(
+                                                RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            18.0),
+                                                    side: BorderSide(
+                                                        color: Colors.green)))),
+                                        onPressed: () async {
+                                          await FirebaseFirestore.instance
+                                              .collection("users")
+                                              .doc(widget.userid)
+                                              .collection("orders")
+                                              .doc(widget.id)
+                                              .update({"accepted": true});
+                                        },
+                                        child: Text(
+                                          "accept",
+                                          // style: TextStyle(color: Colors.green),
+                                        )),
+                                  ),
+                                ],
+                              ),
+                              // ,
+                            )
+                          : widget.accepted == false
+                              ? Container(
+                                  width: 0.2 * width,
+                                  child:
+                                      // ElevatedButton(
 
-                            if (widget.status2 != "recieved" &&
-                                selected == "recieved") {
-                              var revenue = 0;
-                              try {
-                                await FirebaseFirestore.instance
-                                    .collection('revenue')
-                                    .doc(widget.userid)
-                                    .get()
-                                    .then((DocumentSnapshot documentSnapshot) {
-                                  // if (documentSnapshot.exists) {
-                                  print(
-                                      'Document data: ${documentSnapshot.data()}');
-                                  Map<String, dynamic> data = documentSnapshot
-                                      .data()! as Map<String, dynamic>;
+                                      // onPressed: () {},
+                                      // child:
+                                      Text(
+                                    "rejected",
+                                    style: TextStyle(color: Colors.red),
+                                  )
+                                  // ),
+                                  )
+                              : widget.status2 == "delivered"
+                                  ? Container(
+                                      width: 0.2 * width,
+                                      child: ElevatedButton(
+                                          style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all<
+                                                      Color>(Colors.green),
+                                              shape: MaterialStateProperty.all<
+                                                      RoundedRectangleBorder>(
+                                                  RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              18.0),
+                                                      side: BorderSide(
+                                                          color:
+                                                              Colors.green)))),
+                                          onPressed: () {},
+                                          child: Text(
+                                            "delivered",
+                                            // style: TextStyle(color: Colors.green),
+                                          )),
+                                    )
+                                  : Container(
+                                      width: 0.5 * widget.width,
+                                      child: DropdownButton<String>(
+                                        value: selected == null
+                                            ? widget.status1
+                                            : selected,
+                                        items: <String>[
+                                          // post[0]['status'],
+                                          'pending',
+                                          'delivering',
+                                          // 'delivered',
+                                          'delivered'
+                                        ].map((value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Text(value),
+                                          );
+                                        }).toList(),
+                                        onChanged: (value) async {
+                                          setState(() => selected = value);
 
-                                  setState(() {
-                                    revenue = data["revenue"];
-                                  });
-                                  // } else {
-                                  //   print('Document does not exist on the database');
-                                  // }
-                                });
-                              } catch (e) {}
+                                          if (widget.status2 != "delivered" &&
+                                              selected == "delivered") {
+                                                setState(() {
+                                                  widget.status2 = value;
+                                                });
+                                            var revenue = 0;
+                                            try {
+                                              await FirebaseFirestore.instance
+                                                  .collection('revenue')
+                                                  .doc(widget.userid)
+                                                  .get()
+                                                  .then((DocumentSnapshot
+                                                      documentSnapshot) {
+                                                // if (documentSnapshot.exists) {
+                                                print(
+                                                    'Document data: ${documentSnapshot.data()}');
+                                                Map<String, dynamic> data =
+                                                    documentSnapshot.data()!
+                                                        as Map<String, dynamic>;
 
-                              var total = revenue + widget.price;
-                              try {
-                                await FirebaseFirestore.instance
-                                    .collection('revenue')
-                                    .doc(widget.userid)
-                                    .update({'revenue': total});
-                              } catch (e) {
-                                await FirebaseFirestore.instance
-                                    .collection('revenue')
-                                    .doc(widget.userid)
-                                    .set({'revenue': total});
-                              }
-                              if (mounted) {
-                                setState(() => widget.status2 = value!);
-                              }
-                              //add to revenue
-                            } else if (widget.status2 == "recieved" &&
-                                selected != "recieved") {
-                              var revenue = 0;
-                              try {
-                                await FirebaseFirestore.instance
-                                    .collection('revenue')
-                                    .doc(widget.userid)
-                                    .get()
-                                    .then((DocumentSnapshot documentSnapshot) {
-                                  // if (documentSnapshot.exists) {
-                                  print(
-                                      'Document data: ${documentSnapshot.data()}');
-                                  Map<String, dynamic> data = documentSnapshot
-                                      .data()! as Map<String, dynamic>;
+                                                setState(() {
+                                                  revenue = data["revenue"];
+                                                });
+                                                // } else {
+                                                //   print('Document does not exist on the database');
+                                                // }
+                                              });
+                                            } catch (e) {}
 
-                                  setState(() {
-                                    revenue = data["revenue"];
-                                  });
-                                  // } else {
-                                  //   print('Document does not exist on the database');
-                                  // }
-                                });
-                              } catch (e) {}
+                                            var total = revenue + widget.total;
+                                            try {
+                                              await FirebaseFirestore.instance
+                                                  .collection('revenue')
+                                                  .doc(widget.userid)
+                                                  .update({'revenue': total});
+                                            } catch (e) {
+                                              await FirebaseFirestore.instance
+                                                  .collection('revenue')
+                                                  .doc(widget.userid)
+                                                  .set({'revenue': total});
+                                            }
+                                            if (mounted) {
+                                              setState(() =>
+                                                  widget.status2 = value!);
+                                            }
+                                            //add to revenue
+                                          } else if (widget.status2 ==
+                                                  "delivered" &&
+                                              selected != "delivered") {
+                                            var revenue = 0;
+                                            try {
+                                              await FirebaseFirestore.instance
+                                                  .collection('revenue')
+                                                  .doc(widget.userid)
+                                                  .get()
+                                                  .then((DocumentSnapshot
+                                                      documentSnapshot) {
+                                                // if (documentSnapshot.exists) {
+                                                print(
+                                                    'Document data: ${documentSnapshot.data()}');
+                                                Map<String, dynamic> data =
+                                                    documentSnapshot.data()!
+                                                        as Map<String, dynamic>;
 
-                              var total = revenue - widget.price;
+                                                setState(() {
+                                                  revenue = data["revenue"];
+                                                });
+                                                // } else {
+                                                //   print('Document does not exist on the database');
+                                                // }
+                                              });
+                                            } catch (e) {}
 
-                              try {
-                                await FirebaseFirestore.instance
-                                    .collection('revenue')
-                                    .doc(widget.userid)
-                                    .update({'revenue': total});
-                              } catch (e) {
-                                await FirebaseFirestore.instance
-                                    .collection('revenue')
-                                    .doc(widget.userid)
-                                    .set({'revenue': total});
-                              }
-        if (mounted) {
-                              setState(() => widget.status2 = value!);
-                              }
-                              //remove to revenue
-                            } else {
-     if (mounted) {
-                              setState(() => widget.status2 = value!);
-                              }                            }
+                                            var total = revenue - widget.total;
 
-                            // try {
-                            await FirebaseFirestore.instance
-                                .collection("userorders")
-                                .doc(widget.userid)
-                                .collection("myorders")
-                                .doc(widget.id)
-                                .update({"status": selected});
-                            // } catch (e) {
+                                            try {
+                                              await FirebaseFirestore.instance
+                                                  .collection('revenue')
+                                                  .doc(widget.userid)
+                                                  .update({'revenue': total});
+                                            } catch (e) {
+                                              await FirebaseFirestore.instance
+                                                  .collection('revenue')
+                                                  .doc(widget.userid)
+                                                  .set({'revenue': total});
+                                            }
+                                            if (mounted) {
+                                              setState(() =>
+                                                  widget.status2 = value!);
+                                            }
+                                            //remove to revenue
+                                          } else {
+                                            if (mounted) {
+                                              setState(() =>
+                                                  widget.status2 = value!);
+                                            }
+                                          }
 
-                            // }
-                          },
-                        ),
-                      ),
+                                          // try {
+                                          await FirebaseFirestore.instance
+                                              .collection("users")
+                                              .doc(widget.userid)
+                                              .collection("orders")
+                                              .doc(widget.id)
+                                              .update({"status": selected}).then((value) => print("kik"));
+                                          // } catch (e) {
+
+                                          // }
+                                        },
+                                      ),
+                                    ),
                       trailing: Container(
                         width: 0.2 * widget.width,
                         child: ElevatedButton(
@@ -410,8 +873,9 @@ class _MycontainerState extends State<Mycontainer> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        Orderview(widget.post)),
+                                    builder: (context) => Orderview(
+                                          widget.image,widget.name,widget.alt,widget.phoneNumber,widget.orderId,widget.status,widget.price,widget.quantity,widget.address,
+                                        )),
                               );
                             },
                             child: Text(
