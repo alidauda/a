@@ -278,8 +278,8 @@ class _CreateState extends State<Create> {
                               "slug": slug,
                               "alt": descontroller.text,
                               "shopname": shopname,
-                              "published":true
-                            });
+                              "published":true,
+                              "shopid":    _userid.uid                        });
                             setState(() {
                               _isloading = false;
                             });
