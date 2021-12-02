@@ -279,7 +279,9 @@ class _CreateState extends State<Create> {
                               "alt": descontroller.text,
                               "shopname": shopname,
                               "published":true,
-                              "shopid":    _userid.uid                        });
+                              "shopid":    _userid.uid ,
+                              "title":namecontroller.text
+                                                     });
                             setState(() {
                               _isloading = false;
                             });
