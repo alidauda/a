@@ -18,6 +18,43 @@ class Create extends StatefulWidget {
 }
 
 class _CreateState extends State<Create> {
+
+var username;
+  var fullname;
+  var photo;
+
+  getuser() async {
+    // print(revenue);
+    // print(revenue);
+    // print(revenue);
+    // print(revenue);
+    // print(revenue);
+    // print(revenue);
+    // print(revenue);
+    // print(revenue);
+    // print(revenue);
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(_userid.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      // if (documentSnapshot.exists) {
+      print('Document data: ${documentSnapshot.data()}');
+      Map<String, dynamic> data =
+          documentSnapshot.data()! as Map<String, dynamic>;
+
+      setState(() {
+        username = data["shopname"];
+        fullname = data["fullname"];
+        photo = data["profile"];
+      });
+      // } else {
+      //   print('Document does not exist on the database');
+      // }
+    });
+  }
+
+
   TextEditingController discountcontroller = new TextEditingController();
   TextEditingController namecontroller = new TextEditingController();
   TextEditingController descontroller = new TextEditingController();
@@ -277,10 +314,11 @@ class _CreateState extends State<Create> {
                               "quantity":int.parse(qcontroller.text) ,
                               "slug": slug,
                               "alt": descontroller.text,
-                              "shopname": shopname,
+                              "shopname": username,
                               "published":true,
                               "shopid":    _userid.uid ,
-                              "title":namecontroller.text
+                              "title":namecontroller.text,
+                              "username":username
                                                      });
                             setState(() {
                               _isloading = false;
