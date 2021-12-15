@@ -1,5 +1,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'chooseshpname.dart';
 import 'create_det.dart';
 
@@ -56,14 +57,32 @@ class _LoginScreenState extends State<LoginScreen> {
      
 SharedPreferences preferences=await SharedPreferences.getInstance();
       preferences.setString('number', phoneController.text);
+      String token;
+      await FirebaseMessaging.instance.requestPermission();
+ token = (await FirebaseMessaging.instance.getToken())!;
       if(authCredential.user != null){
 users.doc(use!.uid).get().then((doc) async => {
+   
 if(doc.exists){
+     await FirebaseFirestore.instance
+                        .collection("users")
+                        .doc(use!.uid)
+                        .update({
+                      
+                      "token":token
+                    }),
    setState(() {
         showLoading = false;
       }),
   Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>MyStatefulWidget()))
 }else{
+   await FirebaseFirestore.instance
+                        .collection("users")
+                        .doc(use!.uid)
+                        .set({
+                      
+                      "token":token
+                    }),
  Navigator.push(context, MaterialPageRoute(builder: (context)=>  Choose()))
 }
 });

@@ -230,12 +230,13 @@ class _HomePageState extends State<HomePageScreen> {
             }),
           
         
-        floatingActionButton: FloatingActionButton(
+        floatingActionButton: FloatingActionButton( 
+
           backgroundColor: Colors.green,
           onPressed: () {
             Navigator.of(context).pushNamed(Create.routeName);
           },
-          child: const Icon(Icons.add),
+          child:Text("ADD NEW ITEM") ,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),

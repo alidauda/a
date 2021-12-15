@@ -237,13 +237,8 @@ await FirebaseFirestore.instance
                   setState(() {
                     turn = true;
                   });
-                  String token ;
-try {
-  await FirebaseMessaging.instance.requestPermission();
- token = await FirebaseMessaging.instance.getToken();
+                 
 
-} catch (e) {
-}
                   try {
                     UploadTask uploadTask = FirebaseStorage.instance
                         .ref()
@@ -256,10 +251,10 @@ try {
                     await FirebaseFirestore.instance
                         .collection("users")
                         .doc(userid.uid)
-                        .set({
+                        .update({
                       "profile": downloadUrl,
-                      "shopname": username.text.toLowerCase(),
-                      "token":token
+                      "shopname": username.text.trim().toLowerCase(),
+                      
                     });
                   } catch (e) {
                     setState(() {

@@ -31,89 +31,91 @@ class _ViewitemState extends State<Viewitem> {
         ),
       ),
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 0.5 * height,
-              width: 0.99 * width,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  for (var item in data['images'])
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: CachedNetworkImage(
-                            imageUrl: item,
-                            fit: BoxFit.fill,
-                          )),
-                    )
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                data['name'].toString().toUpperCase(),
-                style: TextStyle(fontSize: 0.07 * height, color: Colors.green),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8, left: 8),
-              child: Text(
-                'description:',
-                style: TextStyle(fontSize: 0.03 * height, color: Colors.green),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8, bottom: 8),
-              child: Text(
-                data['description'].toString(),
-                style: TextStyle(fontSize: 0.03 * height, color: Colors.green),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'price: ' + '₦' + data['price'].toString(),
-                style: TextStyle(fontSize: 0.03 * height, color: Colors.green),
-              ),
-            ),
-            Container(
-              width: width,
-              child: Center(
-                child: Container(
-                  width: 0.3 * width,
-                  child: ElevatedButton(
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(Colors.green),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18.0),
-                                      side: BorderSide(color: Colors.green)))),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Editproduct(
-                                  data['name'].toString().toUpperCase(),
-                                  data['description'].toString(),
-                                  data['price'].toString(),
-                                  data['quantity'].toString(),
-                                  widget.id)),
-                        );
-                      },
-                      child: Text(
-                        "edit product",
-                      )),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 0.5 * height,
+                width: 0.99 * width,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    for (var item in data['images'])
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: CachedNetworkImage(
+                              imageUrl: item,
+                              fit: BoxFit.fill,
+                            )),
+                      )
+                  ],
                 ),
               ),
-            )
-          ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  data['name'].toString().toUpperCase(),
+                  style: TextStyle(fontSize: 0.07 * height, color: Colors.green),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8, left: 8),
+                child: Text(
+                  'description:',
+                  style: TextStyle(fontSize: 0.03 * height, color: Colors.green),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8, bottom: 8),
+                child: Text(
+                  data['description'].toString(),
+                  style: TextStyle(fontSize: 0.03 * height, color: Colors.green),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'price: ' + '₦' + data['price'].toString(),
+                  style: TextStyle(fontSize: 0.03 * height, color: Colors.green),
+                ),
+              ),
+              Container(
+                width: width,
+                child: Center(
+                  child: Container(
+                    width: 0.3 * width,
+                    child: ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(Colors.green),
+                            shape:
+                                MaterialStateProperty.all<RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(18.0),
+                                        side: BorderSide(color: Colors.green)))),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Editproduct(
+                                    data['name'].toString().toUpperCase(),
+                                    data['description'].toString(),
+                                    data['price'].toString(),
+                                    data['quantity'].toString(),
+                                    widget.id)),
+                          );
+                        },
+                        child: Text(
+                          "edit product",
+                        )),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

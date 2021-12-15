@@ -53,8 +53,15 @@ var username;
       // }
     });
   }
+  void initState(){
+    super.initState();
+    getuser();
+  }
 
-
+void dispose() {
+  super.dispose();
+ getuser();
+}
   TextEditingController discountcontroller = new TextEditingController();
   TextEditingController namecontroller = new TextEditingController();
   TextEditingController descontroller = new TextEditingController();
