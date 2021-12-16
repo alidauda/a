@@ -20,9 +20,8 @@ class Myorders extends StatefulWidget {
 class _MyordersState extends State<Myorders> {
   add() async {
     await FirebaseFirestore.instance
-        .collection("users")
-        .doc(userid!.uid)
         .collection("orders")
+    
         .add({
       // "image":"https://firebasestorage.googleapis.com/v0/b/shopmakeitfast.appspot.com/o/cloudpost_2896b55b-89e8-452d-a3ba-cab89f7bc881.jpg?alt=media&token=63840b74-77fc-4159-ba12-a3b3479d22a8",
 
@@ -35,7 +34,7 @@ class _MyordersState extends State<Myorders> {
       "address": "address",
       "alt": "fatar doki",
       "name": "asa sauce",
-      "orderId": "orderId",
+      "ordersId": "ordersId",
       "phoneNumber": "phoneNumber",
       "price": "price",
       "quantity": "7",
@@ -44,6 +43,7 @@ class _MyordersState extends State<Myorders> {
       "title": "bag",
       "usename": "usename",
       // "userUID": "userUID"
+      "shopid":userid!.uid
     });
   }
 
@@ -73,7 +73,9 @@ class _MyordersState extends State<Myorders> {
               Container(
                 width: 0.9 * width,
                 height: 0.1 * height,
-                child:  ListView(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
                       Container(
@@ -237,21 +239,21 @@ class _MyordersState extends State<Myorders> {
                     ],
                   ),
                 ),
-              
+              ),
               Container(
                 // width: 0,
                 height: 0.7 * height,
                 child: StreamBuilder(
                     stream: type == null
                         ? FirebaseFirestore.instance
-                            .collection("users")
-                            .doc(userid!.uid)
                             .collection("orders")
+                            .where("shopid", isEqualTo: userid!.uid)
+                            // .collection("orderss")
                             .snapshots()
                         : FirebaseFirestore.instance
-                            .collection("users")
-                            .doc(userid!.uid)
                             .collection("orders")
+                            .where("shopid", isEqualTo: userid!.uid)
+                            // .collection("orderss")
                             .where("status", isEqualTo: type)
                             .snapshots(),
                     builder: (BuildContext context,
@@ -276,98 +278,102 @@ class _MyordersState extends State<Myorders> {
                               orderId,
                               phoneNumber,
                               price,
-                             
+                              quantity,
                               slug,
                               title,
                               usename,
-                              userUID,createdAt;
+                              userUID,
+                              createdAt;
 
                           try {
                             // setState(() {
-                              // post = document['post'];
-                              try {
-                                title = document["title"];
-                              } catch (e) {}   try {
-                                userUID = document["userUID"];
-                              } catch (e) {}
-                              try {
-                                usename = document["usename"];
-                              } catch (e) {}
-                              try {
-                                title = document["title"];
-                              } catch (e) {}
-                              try {
-                                status = document["status"];
-                              } catch (e) {}
-                              
-                              try {
-                                slug = document["slug"];
-                              } catch (e) {}
-                              try {
-                                price = document["price"];
-                              } catch (e) {}
-                              try {
-                                phoneNumber = document["phoneNumber"];
-                              } catch (e) {}
-                              try {
-                                orderId = document["orderId"];
-                              } catch (e) {}
-                              try {
-                                name = document["name"];
-                              } catch (e) {}
-                              try {
-                                alt = document["alt"];
-                              } catch (e) {}
-                              try {
-                                address = document["address"];
-                              } catch (e) {}
-                              try {
-                                image = document["image"];
-                              } catch (e) {}
-                              try {
-                                quan = document['quan'];
-                              } catch (e) {}
-                              try {
-                                status = document['status'];
-                              } catch (e) {}
-                              try {
-                                accepted = document['accepted'];
-                              } catch (e) {}
-                              try {
-                                total = document['price'];
-                              } catch (e) {}
-                                                  try {
-                                createdAt = document["createdAt"];
-                                print(createdAt);
-                                print(createdAt);
-                                print(createdAt);
-                                print(createdAt);
-                                print(createdAt);
-                                print(createdAt);
-                                print(createdAt);
-                                print(createdAt);
-                                print(createdAt);
-                                print(createdAt);
-                              } catch (e) {}
-                          
-                              // quantity = document["quantity"];
-                              // post.add({
-                              //   "image": image,
-                              //   "address": address,
-                              //   "alt": alt,
-                              //   "name": name,
-                              //   "orderId": orderId,
-                              //   "phoneNumber": phoneNumber,
-                              //   "price": price,
-                              //   "quantity": quantity,
-                              //   "slug": slug,
-                              //   "status": status,
-                              //   "title": title,
-                              //   "usename": usename,
-                              //   "userUID": userUID
-                              // });
+                            // post = document['post'];
+                            try {
+                              title = document["title"];
+                            } catch (e) {}
+                            try {
+                              userUID = document["userUID"];
+                            } catch (e) {}
+                            try {
+                              usename = document["usename"];
+                            } catch (e) {}
+                            try {
+                              title = document["title"];
+                            } catch (e) {}
+                            try {
+                              status = document["status"];
+                            } catch (e) {}
+                            try {
+                              quantity = document["quantity"];
+                            } catch (e) {}
+                            try {
+                              slug = document["slug"];
+                            } catch (e) {}
+                            try {
+                              price = document["price"];
+                            } catch (e) {}
+                            try {
+                              phoneNumber = document["phoneNumber"];
+                            } catch (e) {}
+                            try {
+                              orderId = document["orderId"];
+                            } catch (e) {}
+                            try {
+                              name = document["name"];
+                            } catch (e) {}
+                            try {
+                              alt = document["alt"];
+                            } catch (e) {}
+                            try {
+                              address = document["address"];
+                            } catch (e) {}
+                            try {
+                              image = document["image"];
+                            } catch (e) {}
+                            try {
+                              quan = document['quantity'];
+                            } catch (e) {}
+                            try {
+                              status = document['status'];
+                            } catch (e) {}
+                            try {
+                              accepted = document['accepted'];
+                            } catch (e) {}
+                            try {
+                              total = document['total'];
+                            } catch (e) {}
+                            try {
+                              createdAt = document["createdAt"];
+                              print(createdAt);
+                              print(createdAt);
+                              print(createdAt);
+                              print(createdAt);
+                              print(createdAt);
+                              print(createdAt);
+                              print(createdAt);
+                              print(createdAt);
+                              print(createdAt);
+                              print(createdAt);
+                            } catch (e) {}
 
-                              // print(post);
+                            // quantity = document["quantity"];
+                            // post.add({
+                            //   "image": image,
+                            //   "address": address,
+                            //   "alt": alt,
+                            //   "name": name,
+                            //   "orderId": orderId,
+                            //   "phoneNumber": phoneNumber,
+                            //   "price": price,
+                            //   "quantity": quantity,
+                            //   "slug": slug,
+                            //   "status": status,
+                            //   "title": title,
+                            //   "usename": usename,
+                            //   "userUID": userUID
+                            // });
+
+                            // print(post);
                             // });
                           } catch (e) {
                             final snackBar =
@@ -398,8 +404,8 @@ class _MyordersState extends State<Myorders> {
 
                           // return Text(post.toString());
                           return Mycontainer(
-                            title:title,
-                            createdAt:createdAt,
+                            title: title,
+                            createdAt: createdAt,
                             height: height,
                             // post: post,
                             width: width,
@@ -418,7 +424,7 @@ class _MyordersState extends State<Myorders> {
                             orderId: orderId,
                             phoneNumber: phoneNumber,
                             price: price,
-                            quantity: quan,
+                            quantity: quantity,
                             // slug: slug,
                             status: status,
                             // title: title,
@@ -506,8 +512,15 @@ class _MyordersState extends State<Myorders> {
 
 class Mycontainer extends StatefulWidget {
   Mycontainer({
-  
-  required this.name,  required this.title,required this.alt,required this.phoneNumber,required this.orderId,required this.status,required this.price,required this.quantity,required this.address,
+    required this.name,
+    required this.title,
+    required this.alt,
+    required this.phoneNumber,
+    required this.orderId,
+    required this.status,
+    required this.price,
+    required this.quantity,
+    required this.address,
     Key? key,
     required this.height,
     // required this.post,
@@ -522,7 +535,6 @@ class Mycontainer extends StatefulWidget {
     required this.quan,
     required this.createdAt,
     // required this.title
-    
 
     // required this.selected,
   }) : super(key: key);
@@ -533,10 +545,19 @@ class Mycontainer extends StatefulWidget {
   final id;
   final userid;
   // final String? selected;
-  int total;
+  var total;
   var status2;
   var status1, accepted, image, quan;
-  var name,alt,phoneNumber,orderId,status,price,quantity,address,createdAt,title;
+  var name,
+      alt,
+      phoneNumber,
+      orderId,
+      status,
+      price,
+      quantity,
+      address,
+      createdAt,
+      title;
 
   @override
   _MycontainerState createState() => _MycontainerState();
@@ -576,17 +597,20 @@ class _MycontainerState extends State<Mycontainer> {
               child: Column(
                 children: [
                   ListTile(
-                    trailing:Text(widget.createdAt==null?"no date":DateFormat.yMMMd().add_jm().format(DateTime.parse( widget.createdAt.toDate().toString()))),
+                    trailing: Text(widget.createdAt == null
+                        ? "no date"
+                        : DateFormat.yMMMd().add_jm().format(DateTime.parse(
+                            widget.createdAt.toDate().toString()))),
                     //  Text( DateTime.parse( widget.createdAt.toDate().toString()).toString()),
                     subtitle:
                         // Text(widget.post[0]['image'].toString()),
                         Row(
-                          children: [
-                            Text("quantity: "),
-                            Text(
-                                widget.quan == null ? "1" : widget.quan.toString()),
-                          ],
-                        ),
+                      children: [
+                        Text("quantity: "),
+                        Text(
+                            widget.quan == null ? "1" : widget.quan.toString()),
+                      ],
+                    ),
                     leading: ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(13)),
                       child: Container(
@@ -606,7 +630,7 @@ class _MycontainerState extends State<Mycontainer> {
                               ),
                       ),
                     ),
-                    title: Text( widget.title.toString()),
+                    title: Text("order for " + widget.title.toString()),
                     //  Text(widget.post[0]['username'] +
                     //     "ordered" +
                     //     widget.post[0]['content']),
@@ -643,9 +667,9 @@ class _MycontainerState extends State<Mycontainer> {
                                         onPressed: () async {
                                           // try {
                                           await FirebaseFirestore.instance
-                                              .collection("users")
-                                              .doc(widget.userid)
                                               .collection("orders")
+                                              // .doc(widget.userid)
+                                              // .collection("orders")
                                               .doc(widget.id)
                                               .update({"accepted": false});
                                         },
@@ -671,9 +695,9 @@ class _MycontainerState extends State<Mycontainer> {
                                                         color: Colors.green)))),
                                         onPressed: () async {
                                           await FirebaseFirestore.instance
-                                              .collection("users")
-                                              .doc(widget.userid)
                                               .collection("orders")
+                                              // .doc(widget.userid)
+                                              // .collection("orders")
                                               .doc(widget.id)
                                               .update({"accepted": true});
                                         },
@@ -746,10 +770,12 @@ class _MycontainerState extends State<Mycontainer> {
 
                                           if (widget.status2 != "delivered" &&
                                               selected == "delivered") {
-                                                setState(() {
-                                                  widget.status2 = value;
-                                                });
+                                            setState(() {
+                                              widget.status2 = value!;
+                                            });
+
                                             var revenue = 0;
+
                                             try {
                                               await FirebaseFirestore.instance
                                                   .collection('revenue')
@@ -844,11 +870,11 @@ class _MycontainerState extends State<Mycontainer> {
 
                                           // try {
                                           await FirebaseFirestore.instance
-                                              .collection("users")
-                                              .doc(widget.userid)
                                               .collection("orders")
+                                              // .doc(widget.userid)
+                                              // .collection("orders")
                                               .doc(widget.id)
-                                              .update({"status": selected}).then((value) => print("kik"));
+                                              .update({"status": selected});
                                           // } catch (e) {
 
                                           // }
@@ -874,7 +900,15 @@ class _MycontainerState extends State<Mycontainer> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => Orderview(
-                                          widget.image,widget.name,widget.alt,widget.phoneNumber,widget.orderId,widget.status,widget.price,widget.quantity,widget.address,
+                                          widget.image,
+                                          widget.name,
+                                          widget.alt,
+                                          widget.phoneNumber,
+                                          widget.orderId,
+                                          widget.status,
+                                          widget.price,
+                                          widget.quantity,
+                                          widget.address,
                                         )),
                               );
                             },

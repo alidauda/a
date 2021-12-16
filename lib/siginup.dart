@@ -133,7 +133,7 @@ if(doc.exists){
                       ///Niche App Logo goes in here
 
                       Text(
-                        'Sign In',
+                        'Please Enter Your Number',
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'OpenSans',

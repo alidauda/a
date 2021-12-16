@@ -68,7 +68,7 @@ void initState() {
              
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
+            icon: Icon(Icons.shopping_basket),
             label: 'Products',
             backgroundColor: Colors.green,
           ),

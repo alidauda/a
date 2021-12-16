@@ -236,7 +236,7 @@ class _HomeState extends State<Home> {
                                                               Colors.green)))),
                                           onPressed: () {
                                             Share.share(
-                                                'check out my website https://www.shopity.me/$username');
+                                                'check out my website https://www.myshago.store/$username');
 
                                             //                              Navigator.push(
                                             //   context,
@@ -504,14 +504,14 @@ class _HomeState extends State<Home> {
                 child: StreamBuilder(
                     stream: type == null
                         ? FirebaseFirestore.instance
-                            .collection("users")
-                            .doc(userid!.uid)
-                            .collection("orders")
+                   .collection("orders")
+                            .where("shopid", isEqualTo: userid!.uid)
+                            // .collection("orders")
                             .snapshots()
                         : FirebaseFirestore.instance
-                            .collection("users")
-                            .doc(userid!.uid)
-                            .collection("orders")
+               .collection("orders")
+                            .where("shopid", isEqualTo: userid!.uid)
+                            // .collection("orders")
                             .where("status", isEqualTo: type)
                             .snapshots(),
                     builder: (BuildContext context,
@@ -586,7 +586,7 @@ class _HomeState extends State<Home> {
                                 accepted = document['accepted'];
                               } catch (e) {}
                               try {
-                                total = document['price'];
+                                total = document['total'];
                               } catch (e) {}
                               // quantity = document["quantity"];
                               // post.add({

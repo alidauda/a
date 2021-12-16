@@ -2,7 +2,7 @@
 
 import 'package:my_ap/sss.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:splashscreen/splashscreen.dart';
 import 'addp.dart';
 import 'create_det.dart';
 import 'home_page_screen.dart';
@@ -70,7 +70,25 @@ Future<void> main() async{
          MyStatefulWidget.routeName:(_)=>MyStatefulWidget(),
     },
    
-    home:  email==null?LoginScreen():MyStatefulWidget()
+    home:SplashScreen(
+      seconds: 2,
+      navigateAfterSeconds: email==null?LoginScreen():MyStatefulWidget(),
+      title: new Text('Welcome to Myshop',
+      style: new TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 20.0,
+        color: Colors.white
+      ),),
+      image: new Image.asset('assets/images/splash.png'),
+      backgroundColor: Color.fromRGBO(126,217,86,1),
+      styleTextUnderTheLoader: new TextStyle(),
+      photoSize: 300*0.3,
+      onClick: ()=>print("Flutter Egypt"),
+      loaderColor: Colors.red
+    )  
+    
+    
+    
 
   ));
 }

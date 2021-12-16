@@ -428,7 +428,8 @@ var params = convert.jsonEncode({
       "business_name": namecontroller.text,
       "bank_code": mycode,
       "account_number": numbercontroller.text,
-      "percentage_charge": 0.2
+      "percentage_charge": 0.0
+      
     });
 
     final url = Uri.parse('https://api.paystack.co/subaccount');
@@ -441,8 +442,8 @@ var params = convert.jsonEncode({
     final response = await post(url, headers: headers, body: params);
     print('Status code: ${response.statusCode}');
     print('Body: ${response.body}');
-    Map res= jsonDecode(response.body);
-        print(res["data"]["subaccount_code"]);
+    Map res= await jsonDecode(response.body);
+       
 
                             await FirebaseFirestore.instance
                                 .collection("users")
@@ -457,7 +458,7 @@ var params = convert.jsonEncode({
                             setState(() {
                               _isloading = false;
                             });
-                            Navigator.of(context).pop();
+                            Navigator.of(context).pushReplacementNamed(MyStatefulWidget.routeName);
                             print('Pressed');
 
                           },

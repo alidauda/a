@@ -236,7 +236,7 @@ class _HomePageState extends State<HomePageScreen> {
           onPressed: () {
             Navigator.of(context).pushNamed(Create.routeName);
           },
-          child:Text("ADD NEW ITEM") ,
+          child:Text("ADD") ,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
