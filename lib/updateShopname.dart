@@ -1,5 +1,3 @@
-// @dart=2.9
-
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,27 +5,59 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:uuid/uuid.dart';
 import 'dart:convert' as convert;
-
+import 'package:image_cropper/image_cropper.dart';
 import 'addbank.dart';
 import 'homepage.dart';
 // import 'home.dart';
-User userid = FirebaseAuth.instance.currentUser;
-class Choose extends StatefulWidget {
+User? userid = FirebaseAuth.instance.currentUser;
+class Choosee extends StatefulWidget {
   
 
   @override
-  _ChooseState createState() => _ChooseState();
+  _ChooseeState createState() => _ChooseeState();
 }
 
-class _ChooseState extends State<Choose> {
-                  
-  
-  File image;
+class _ChooseeState extends State<Choosee> {
+
+  var fullname;
+  var photo;
+
+  getuser() async {
+    
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(userid?.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      // if (documentSnapshot.exists) {
+     
+      Map<String, dynamic> data =
+          documentSnapshot.data()! as Map<String, dynamic>;
+
+      setState(() {
+       
+       
+        photo = data["profile"];
+      });
+      // } else {
+      //   print('Document does not exist on the database');
+      // }
+    });
+  }
+  void initState(){
+    super.initState();
+    getuser();
+  }
+
+void dispose() {
+  super.dispose();
+ getuser();
+}
+  File? image;
   bool turn = false;
  
   TextEditingController username = new TextEditingController();
@@ -36,6 +66,9 @@ class _ChooseState extends State<Choose> {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white10,
+      ),
       body: ModalProgressHUD(
         inAsyncCall: turn,
         child:Stack(
@@ -70,7 +103,7 @@ class _ChooseState extends State<Choose> {
                       ///Niche App Logo goes in here
 
                       Text(
-                        'Create your Shop',
+                        'Edit Details',
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'OpenSans',
@@ -78,17 +111,31 @@ class _ChooseState extends State<Choose> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                       Container(
+                    decoration:BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0)
+                    ),
+                    width:100,
+                    height:100,
+                      child:photo==null?Text("no image") :Image.network(
+                       photo,
+                        fit: BoxFit.fill,
+                      )
+                    ),
+                    SizedBox(height: 20,),
                         Container(
               // backgroundImage: Image.file(file),
               // radius: 0.1 * height,
                
-              child: image == null
+              child:  image == null
                   ? InkWell(
                       onTap: () async {
-                        XFile fi = await ImagePicker()
+                        XFile? fi = await ImagePicker()
                             .pickImage(source: ImageSource.gallery);
-                            File croppedFile = await ImageCropper.cropImage(
-        sourcePath: fi.path,
+                        
+                     
+    File? croppedFile = await ImageCropper.cropImage(
+        sourcePath: fi!.path,
         aspectRatioPresets:Platform.isAndroid? [
           CropAspectRatioPreset.square,
           CropAspectRatioPreset.ratio3x2,
@@ -107,7 +154,7 @@ class _ChooseState extends State<Choose> {
               ],
         androidUiSettings: AndroidUiSettings(
           toolbarTitle: 'Crop',
-         
+          toolbarColor: Color(0xffc69f50),
           toolbarWidgetColor: Colors.white,
           initAspectRatio: CropAspectRatioPreset.original,
           lockAspectRatio: false,
@@ -119,7 +166,10 @@ class _ChooseState extends State<Choose> {
         image = croppedFile;
       });
     }
-                       
+  
+                        
+                        
+                     
                       },
                       child: Container(
                         
@@ -135,55 +185,17 @@ class _ChooseState extends State<Choose> {
                         ),
                       ),
                     )
-                  : InkWell(
-                    onTap: () async {
-                       XFile fi = await ImagePicker()
-                            .pickImage(source: ImageSource.gallery);
-                            File croppedFile = await ImageCropper.cropImage(
-        sourcePath: fi.path,
-        aspectRatioPresets:Platform.isAndroid? [
-          CropAspectRatioPreset.square,
-          CropAspectRatioPreset.ratio3x2,
-          CropAspectRatioPreset.original,
-          CropAspectRatioPreset.ratio4x3,
-          CropAspectRatioPreset.ratio16x9,
-        ]: [
-                CropAspectRatioPreset.original,
-                CropAspectRatioPreset.square,
-                CropAspectRatioPreset.ratio3x2,
-                CropAspectRatioPreset.ratio4x3,
-                CropAspectRatioPreset.ratio5x3,
-                CropAspectRatioPreset.ratio5x4,
-                CropAspectRatioPreset.ratio7x5,
-                CropAspectRatioPreset.ratio16x9
-              ],
-        androidUiSettings: AndroidUiSettings(
-          toolbarTitle: 'Crop',
-         toolbarColor: Color(0xffc69f50),
-          toolbarWidgetColor: Colors.white,
-          initAspectRatio: CropAspectRatioPreset.original,
-          lockAspectRatio: false,
-        ),iosUiSettings: IOSUiSettings(
-          title: 'Cropper',
-        ));
-    if (croppedFile != null) {
-      setState(() {
-        image = croppedFile;
-      });
-    }
-                    },
-                    child: Container(
-                      decoration:BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0)
-                      ),
-                      width:100,
-                      height:100,
-                        child: Image.file(
-                          image,
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                  ),
+                  : Container(
+                    decoration:BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0)
+                    ),
+                    width:100,
+                    height:100,
+                      child: Image.file(
+                       image!,
+                        fit: BoxFit.fill,
+                      )
+                    ),
             ),
                       SizedBox(height: 30.0),
                       Column(
@@ -272,35 +284,8 @@ class _ChooseState extends State<Choose> {
                     // }
 
                   }
-var exist;
-                  try{
-await FirebaseFirestore.instance
-    .collection("users")
-    .where("shopname", isEqualTo: username.text)
-    .get()
-    .then((value) {
-  value.docs.forEach((result) {
-    print(result.data());
-    exist=result.data()["shopname"];
-  });
-});
-                  }catch(e){
 
-                  }
-
-       if (exist!=null) {
-                    //  if (email.text.isEmpty||password.text.isEmpty) {
-                    final snackBar =
-                        SnackBar(content: Text('Taken! please choose another shopname'));
-
-                    // Find the ScaffoldMessenger in the widget tree
-                    // and use it to show a SnackBar.
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                    return;
-                    // }
-
-                  }
+     
                   var statusid = Uuid().v4();
 
                   setState(() {
@@ -312,19 +297,18 @@ await FirebaseFirestore.instance
                     UploadTask uploadTask = FirebaseStorage.instance
                         .ref()
                         .child("cloudpost_$statusid.jpg")
-                        .putFile(image);
+                        .putFile(image!);
                     TaskSnapshot storageSnap =
                         await uploadTask.whenComplete(() => null);
                     String downloadUrl = await storageSnap.ref.getDownloadURL();
 
                     await FirebaseFirestore.instance
                         .collection("users")
-                        .doc(userid.uid)
+                        .doc(userid?.uid)
                         .update({
                       "profile": downloadUrl,
                       "shopname": username.text.replaceAll(" ", "").toLowerCase(),
-                      "cod":true,
-                      "transfer":true
+                      
                     });
                   } catch (e) {
                     setState(() {
@@ -345,10 +329,7 @@ await FirebaseFirestore.instance
                     turn = false;
                   });
                   Uuid().v4();
-     Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Bankinfo()),
-                );
+     Navigator.of(context).pop();
                   // Navigator.push(
                   //   context,
                   //   MaterialPageRoute(builder: (context) => Home(userid)),
@@ -361,7 +342,7 @@ await FirebaseFirestore.instance
                           ),
                           color: Colors.white,
                           child: Text(
-                            'CHOOSE SHOPNAME',
+                            'UPDATE',
                             style: TextStyle(
                               color: Color(0xFF527DAA),
                               letterSpacing: 1.5,

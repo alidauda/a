@@ -72,7 +72,7 @@ Future<void> main() async{
    
     home:SplashScreen(
       seconds: 2,
-      navigateAfterSeconds: email==null?LoginScreen():MyStatefulWidget(),
+       navigateAfterSeconds: email==null?LoginScreen():MyStatefulWidget(),
       title: new Text('Welcome to Myshop',
       style: new TextStyle(
         fontWeight: FontWeight.bold,

@@ -18,46 +18,9 @@ class Myorders extends StatefulWidget {
 }
 
 class _MyordersState extends State<Myorders> {
-  add() async {
-    await FirebaseFirestore.instance
-        .collection("orders")
-    
-        .add({
-      // "image":"https://firebasestorage.googleapis.com/v0/b/shopmakeitfast.appspot.com/o/cloudpost_2896b55b-89e8-452d-a3ba-cab89f7bc881.jpg?alt=media&token=63840b74-77fc-4159-ba12-a3b3479d22a8",
+ 
 
-      "userUID": "asa",
-      "total": 4000,
-      "status": "pending",
-
-      "image":
-          "https://firebasestorage.googleapis.com/v0/b/shopmakeitfast.appspot.com/o/cloudpost_2896b55b-89e8-452d-a3ba-cab89f7bc881.jpg?alt=media&token=63840b74-77fc-4159-ba12-a3b3479d22a8",
-      "address": "address",
-      "alt": "fatar doki",
-      "name": "asa sauce",
-      "ordersId": "ordersId",
-      "phoneNumber": "phoneNumber",
-      "price": "price",
-      "quantity": "7",
-      "slug": "bagccd10556-e6eb-481d-8057-3022c9a58a7e",
-      // "status": "status",
-      "title": "bag",
-      "usename": "usename",
-      // "userUID": "userUID"
-      "shopid":userid!.uid
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    // add();
-    // add();
-    // add();
-    // add();
-    // add();
-    // add();
-    // add();
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +28,10 @@ class _MyordersState extends State<Myorders> {
     var width = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      appBar: AppBar(title: Text("Myorders"),
+      centerTitle: true,
+      backgroundColor: Colors.green,
+      ),
       body: SafeArea(
         child: Container(
           height: 0.8 * height,

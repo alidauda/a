@@ -41,6 +41,7 @@ dependencies:
   share_plus: ^3.0.4 
   firebase_messaging: ^11.1.0
   splashscreen:
+  image_cropper: ^1.4.1
  
 
 

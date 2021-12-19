@@ -479,21 +479,8 @@ var params = convert.jsonEncode({
                           ),
                         ),
                       ),
-                      Container(
-                        // alignment: Alignment.centerRight, you can uncomment this if you want the text to move to the right of the screen
-                        child: FlatButton(
-                          onPressed: () => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx)=>MyStatefulWidget())),
-                          //padding: EdgeInsets.only(right: 0.0), and
-                          child: Text(
-                            'Skip',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'OpenSans',
-                            ),
-                          ),
-                        ),
-                      ),
+                      
+                      
                      
                     ],
                   ),

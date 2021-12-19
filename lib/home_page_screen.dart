@@ -185,49 +185,57 @@ class _HomePageState extends State<HomePageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        
+    return  Scaffold(
+        appBar: AppBar(title: Text("Product"), 
+        backgroundColor: Colors.green,
+         centerTitle: true,),
       
         //backgroundColor: Theme.of(context).backgroundColor,
         body:  
              
     
-            StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance.collection("users").doc(userid!.uid).collection("items").snapshots(),
-            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (snapshot.hasError) {
-                return Text('Something went wrong');
-              }
-    
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Text("Loading");
-              }
-    // return Text( snapshot.data!.docs.toString());
-              return 
-                  CustomScrollView(
-                    slivers: [
-                      SliverList(delegate: SliverChildListDelegate([
-                        
-                      ]),),
-                     SliverList(
-            delegate: SliverChildListDelegate(
-                  [
-                    
-                   Column(
-                  children: snapshot.data!.docs.map((DocumentSnapshot documentSnapshot) {
-              //  return Text("description");
-// return Text("hhh", style: TextStyles.title.bold);
-            return _doctorTile(documentSnapshot);
-      }).toList()),
-                  ],
-            ),
-      )
-                    ],
-                  
+            Stack(
+              children: [
                 
-              );
-            }),
+
+                
+                
+                StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance.collection("users").doc(userid!.uid).collection("items").snapshots(),
+              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Something went wrong');
+                }
+                
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Text("Loading");
+                }
+                // return Text( snapshot.data!.docs.toString());
+                return 
+                    CustomScrollView(
+                      slivers: [
+                        SliverList(delegate: SliverChildListDelegate([
+                          
+                        ]),),
+                       SliverList(
+              delegate: SliverChildListDelegate(
+                    [
+                      
+                     Column(
+                    children: snapshot.data!.docs.map((DocumentSnapshot documentSnapshot) {
+                //  return Text("description");
+            // return Text("hhh", style: TextStyles.title.bold);
+              return _doctorTile(documentSnapshot);
+                  }).toList()),
+                    ],
+              ),
+                  )
+                      ],
+                    
+                  
+                );
+              })],
+            ),
           
         
         floatingActionButton: FloatingActionButton( 
@@ -240,7 +248,8 @@ class _HomePageState extends State<HomePageScreen> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
-        ),),
+        ),
+      
     );
       
   }

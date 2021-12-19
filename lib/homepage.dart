@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'settings.dart';
 import 'siginup.dart';
 import 'package:flutter/material.dart';
 
@@ -36,7 +37,7 @@ void initState() {
     Home() ,
     HomePageScreen(),
     Myorders(),
-  
+   Settings()
   ];
 }
   void _onItemTapped(int index) {
@@ -49,39 +50,43 @@ void initState() {
   Widget build(BuildContext context) {
    
     return Scaffold(
-      appBar: AppBar(
-        leading: Container(),
-        backgroundColor: Colors.green[400],
-        title:  Center(child: Text('Welcome')),
-      ),
+     
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.green[400],
+        showUnselectedLabels:true,
         items: const <BottomNavigationBarItem>[
         
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
-            backgroundColor: Colors.green,
-             
+            
+             backgroundColor: Colors.green
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_basket),
             label: 'Products',
-            backgroundColor: Colors.green,
+            backgroundColor: Colors.green
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.production_quantity_limits_rounded ),
             label: 'orders',
-            backgroundColor: Colors.green,
+            backgroundColor: Colors.green
+          ),
+          BottomNavigationBarItem(
+          
+            icon: Icon(Icons.settings ),
+            label: 'settings',
+            backgroundColor: Colors.green
           ),
      
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.white,
+        selectedItemColor: Colors.orangeAccent,
         onTap: _onItemTapped,
+        unselectedItemColor:Colors.white ,
       ),
     );
   }

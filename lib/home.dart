@@ -34,7 +34,7 @@ class _HomeState extends State<Home> {
           .get()
           .then((DocumentSnapshot documentSnapshot) {
         // if (documentSnapshot.exists) {
-        print('Document data: ${documentSnapshot.data()}');
+       
         Map<String, dynamic> data =
             documentSnapshot.data()! as Map<String, dynamic>;
 
@@ -55,22 +55,13 @@ class _HomeState extends State<Home> {
   var photo;
 
   getuser() async {
-    // print(revenue);
-    // print(revenue);
-    // print(revenue);
-    // print(revenue);
-    // print(revenue);
-    // print(revenue);
-    // print(revenue);
-    // print(revenue);
-    // print(revenue);
+    
     FirebaseFirestore.instance
         .collection('users')
         .doc(userid!.uid)
         .get()
         .then((DocumentSnapshot documentSnapshot) {
-      // if (documentSnapshot.exists) {
-      print('Document data: ${documentSnapshot.data()}');
+     
       Map<String, dynamic> data =
           documentSnapshot.data()! as Map<String, dynamic>;
 
@@ -119,8 +110,9 @@ class _HomeState extends State<Home> {
     var width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      body: SafeArea(
-        child: Container(
+      appBar: AppBar(title:Text("Dashboard"),backgroundColor: Colors.green,
+      centerTitle: true,),
+      body:  Container(
           height: 0.8 * height,
           child: ListView(
             // mainAxisAlignment: MainAxisAlignment.start,
@@ -737,7 +729,7 @@ class _HomeState extends State<Home> {
             ],
           ),
         ),
-      ),
+      
     );
   }
 }
