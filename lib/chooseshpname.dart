@@ -107,7 +107,7 @@ class _ChooseState extends State<Choose> {
               ],
         androidUiSettings: AndroidUiSettings(
           toolbarTitle: 'Crop',
-         
+         toolbarColor: Color(0xffc69f50),
           toolbarWidgetColor: Colors.white,
           initAspectRatio: CropAspectRatioPreset.original,
           lockAspectRatio: false,

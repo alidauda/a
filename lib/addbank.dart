@@ -450,7 +450,7 @@ var params = convert.jsonEncode({
                                 .doc(_userid.uid)
    
                                 .update({
-
+"account":true,
                           "subaccount_code":res["data"]["subaccount_code"]
                             });
 
